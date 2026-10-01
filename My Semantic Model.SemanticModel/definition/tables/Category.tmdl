@@ -1,0 +1,121 @@
+/// Category is the category dimension. It contains descriptive information about product categories and is used to group, filter, and analyze products and sales by category.
+/// 
+/// A category can contain many products. The filtering path is:
+/// Category → Product → Order_Details
+/// 
+/// Use this table for category-level analysis such as sales by category, quantity by category, discount rate by category, and category drill-down into individual products.
+/// 
+/// Category is a descriptive dimension, not a transaction table. Numeric sales and quantity values should be calculated from Order_Details through the related Product table.
+table Category
+	lineageTag: 7a2973b7-854b-42bb-a51c-682d12cadc9b
+	sourceLineageTag: [dbo].[Dim_Category]
+
+	/// The surrogate key identifying a category in the dimensional model. It is used to connect Category to Product. It is a technical relationship key and is normally not displayed to business users.
+	column CategoryKey
+		dataType: int64
+		formatString: 0
+		sourceProviderType: bigint
+		lineageTag: fe012a1c-f484-4818-a45b-29b44e104c8b
+		sourceLineageTag: CategoryKey
+		summarizeBy: none
+		sourceColumn: CategoryKey
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	/// The original business identifier of the product category from the source system. It identifies the category in the operational data. Use it mainly for technical identification and relationships; use CategoryName for report labels.
+	column CategoryID
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: a98cc39f-c5ea-493c-8ebb-1efc9fa174c5
+		sourceLineageTag: CategoryID
+		summarizeBy: none
+		sourceColumn: CategoryID
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	/// The business name of the product category. Use it for category grouping, filtering, ranking, and chart labels.
+	column CategoryName
+		dataType: string
+		sourceProviderType: varchar(255)
+		lineageTag: ba40d1de-d79e-493e-8e05-7ef7d86ebccb
+		sourceLineageTag: CategoryName
+		summarizeBy: none
+		sourceColumn: CategoryName
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	/// A descriptive explanation of the category. It provides additional category context but is not a numeric business measure.
+	column Description
+		dataType: string
+		sourceProviderType: varchar(4000)
+		lineageTag: 576949d1-8c18-446f-b8d9-dd6d8097158f
+		sourceLineageTag: Description
+		summarizeBy: none
+		sourceColumn: Description
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	/// The date from which the category dimension record became valid. It is part of the dimension's historical or slowly changing dimension management.
+	column StartDate
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: date
+		lineageTag: 60d30de3-9bfa-4e53-b8d9-a24cd6f4f05d
+		sourceLineageTag: StartDate
+		summarizeBy: none
+		sourceColumn: StartDate
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	/// The date until which the category dimension record is valid. A blank or future value may indicate that the record is currently valid, depending on the model's implementation.
+	column EndDate
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: date
+		lineageTag: b4c3f061-63a7-4f44-9cbf-8df5a6ce8ded
+		sourceLineageTag: EndDate
+		summarizeBy: none
+		sourceColumn: EndDate
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Indicates whether the category dimension record is the current version. Use the current record when the analysis requires the latest category description.
+	column IsCurrent
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		sourceProviderType: bit
+		lineageTag: 525a1b01-36e2-4658-92b3-51ed7da42528
+		sourceLineageTag: IsCurrent
+		summarizeBy: none
+		sourceColumn: IsCurrent
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Category = entity
+		mode: directLake
+		source
+			entityName: Dim_Category
+			schemaName: dbo
+			expressionSource: DatabaseQuery
+
+	changedProperty = Name
+
+	changedProperty = Description
+
+	annotation PBI_ResultType = Table
+

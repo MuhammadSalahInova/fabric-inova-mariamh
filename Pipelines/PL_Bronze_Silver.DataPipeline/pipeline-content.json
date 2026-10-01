@@ -1,0 +1,608 @@
+{
+  "properties": {
+    "activities": [
+      {
+        "type": "Lookup",
+        "typeProperties": {
+          "source": {
+            "type": "LakehouseTableSource"
+          },
+          "datasetSettings": {
+            "type": "LakehouseTable",
+            "typeProperties": {
+              "schema": "dbo",
+              "table": "ingestion_control"
+            },
+            "schema": [],
+            "linkedService": {
+              "name": "LakeHouse",
+              "properties": {
+                "type": "Lakehouse",
+                "typeProperties": {
+                  "artifactId": "c31f3ec5-5ae1-9df2-41ad-f5fba6e0edf8",
+                  "workspaceId": "00000000-0000-0000-0000-000000000000",
+                  "rootFolder": "Tables"
+                },
+                "annotations": []
+              }
+            },
+            "annotations": []
+          },
+          "firstRowOnly": false
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Lookup_Ingestion_Control",
+        "dependsOn": []
+      },
+      {
+        "type": "ForEach",
+        "typeProperties": {
+          "isSequential": true,
+          "items": {
+            "value": "@activity('Filter').output.value",
+            "type": "Expression"
+          },
+          "activities": [
+            {
+              "type": "Copy",
+              "typeProperties": {
+                "source": {
+                  "type": "RestSource",
+                  "requestMethod": "GET",
+                  "paginationRules": {
+                    "AbsoluteUrl": "$['@odata.nextLink']"
+                  },
+                  "httpRequestTimeout": "00:01:40",
+                  "requestInterval": "00.00:00:00.010",
+                  "datasetSettings": {
+                    "type": "RestResource",
+                    "typeProperties": {
+                      "relativeUrl": {
+                        "value": "@item().RelativeURL",
+                        "type": "Expression"
+                      }
+                    },
+                    "schema": [],
+                    "externalReferences": {
+                      "connection": "cc821a5f-0dda-4ff7-9d74-91429671d9b5"
+                    },
+                    "annotations": []
+                  }
+                },
+                "sink": {
+                  "type": "LakehouseTableSink",
+                  "tableActionOption": "OverwriteSchema",
+                  "applyVOrder": false,
+                  "enableTimestampNtz": false,
+                  "partitionOption": "None",
+                  "datasetSettings": {
+                    "type": "LakehouseTable",
+                    "typeProperties": {
+                      "table": {
+                        "value": "@item().BronzeTable",
+                        "type": "Expression"
+                      }
+                    },
+                    "schema": [],
+                    "linkedService": {
+                      "name": "LakeHouse",
+                      "properties": {
+                        "type": "Lakehouse",
+                        "typeProperties": {
+                          "artifactId": "c31f3ec5-5ae1-9df2-41ad-f5fba6e0edf8",
+                          "workspaceId": "00000000-0000-0000-0000-000000000000",
+                          "rootFolder": "Tables"
+                        },
+                        "annotations": []
+                      }
+                    },
+                    "annotations": []
+                  }
+                },
+                "translator": {
+                  "value": "@json(item().Translator)",
+                  "type": "Expression"
+                },
+                "enableStaging": false
+              },
+              "policy": {
+                "timeout": "0.12:00:00",
+                "retry": 2,
+                "retryIntervalInSeconds": 30,
+                "secureInput": false,
+                "secureOutput": false
+              },
+              "name": "Copy data1",
+              "dependsOn": []
+            },
+            {
+              "type": "TridentNotebook",
+              "typeProperties": {
+                "notebookId": "e87a5b47-39d6-8b67-4d8d-2ce90d4e95bb",
+                "workspaceId": "00000000-0000-0000-0000-000000000000",
+                "parameters": {
+                  "BronzeTable": {
+                    "value": {
+                      "value": "@item().BronzeTable",
+                      "type": "Expression"
+                    },
+                    "type": "string"
+                  },
+                  "NewStatus": {
+                    "value": "Succeeded",
+                    "type": "string"
+                  },
+                  "ErrorMessage": {
+                    "value": "",
+                    "type": "string"
+                  }
+                }
+              },
+              "policy": {
+                "timeout": "0.12:00:00",
+                "retry": 0,
+                "retryIntervalInSeconds": 30,
+                "secureInput": false,
+                "secureOutput": false
+              },
+              "name": "Set_Succeeded",
+              "dependsOn": [
+                {
+                  "activity": "Copy data1",
+                  "dependencyConditions": [
+                    "Succeeded"
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "TridentNotebook",
+              "typeProperties": {
+                "notebookId": "e87a5b47-39d6-8b67-4d8d-2ce90d4e95bb",
+                "workspaceId": "00000000-0000-0000-0000-000000000000",
+                "parameters": {
+                  "BronzeTable": {
+                    "value": {
+                      "value": "@item().BronzeTable",
+                      "type": "Expression"
+                    },
+                    "type": "string"
+                  },
+                  "NewStatus": {
+                    "value": "Failed",
+                    "type": "string"
+                  },
+                  "ErrorMessage": {
+                    "value": "",
+                    "type": "string"
+                  }
+                }
+              },
+              "policy": {
+                "timeout": "0.12:00:00",
+                "retry": 0,
+                "retryIntervalInSeconds": 30,
+                "secureInput": false,
+                "secureOutput": false
+              },
+              "name": "Set_Failed",
+              "dependsOn": [
+                {
+                  "activity": "Copy data1",
+                  "dependencyConditions": [
+                    "Failed"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "name": "ForEach",
+        "dependsOn": [
+          {
+            "activity": "Filter",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "Filter",
+        "typeProperties": {
+          "items": {
+            "value": "@activity('Lookup_Ingestion_Control').output.value",
+            "type": "Expression"
+          },
+          "condition": {
+            "value": "@and(equals(item().IsActive,1),not(equals(item().Status,'Succeeded')))",
+            "type": "Expression"
+          }
+        },
+        "name": "Filter",
+        "dependsOn": [
+          {
+            "activity": "Lookup_Ingestion_Control",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "TridentNotebook",
+        "typeProperties": {
+          "notebookId": "ea65872e-9475-a5b6-4448-992555403e45",
+          "workspaceId": "00000000-0000-0000-0000-000000000000",
+          "parameters": {
+            "layer": {
+              "value": "Bronze",
+              "type": "string"
+            },
+            "run_id": {
+              "value": {
+                "value": "@pipeline().RunId",
+                "type": "Expression"
+              },
+              "type": "string"
+            }
+          }
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 2,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Silver_Validation",
+        "dependsOn": [
+          {
+            "activity": "Bronze_Validation",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "TridentNotebook",
+        "typeProperties": {
+          "notebookId": "1a075aa0-de6c-91c7-4e6c-7692b5f823c8",
+          "workspaceId": "00000000-0000-0000-0000-000000000000",
+          "parameters": {
+            "layer": {
+              "value": "Bronze",
+              "type": "string"
+            },
+            "run_id": {
+              "value": {
+                "value": "@pipeline().RunId",
+                "type": "Expression"
+              },
+              "type": "string"
+            }
+          }
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 2,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Silver_Profiling",
+        "dependsOn": [
+          {
+            "activity": "Silver_Validation",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "TridentNotebook",
+        "typeProperties": {
+          "notebookId": "3165f7e0-9103-89bc-4e9b-a3d8eb5e6879",
+          "workspaceId": "00000000-0000-0000-0000-000000000000",
+          "parameters": {
+            "source_layer": {
+              "value": "Bronze",
+              "type": "string"
+            },
+            "target_layer": {
+              "value": "Silver",
+              "type": "string"
+            },
+            "run_id": {
+              "value": {
+                "value": "@pipeline().RunId",
+                "type": "Expression"
+              },
+              "type": "string"
+            },
+            "excel_batch_id": {
+              "value": "e5c91ef7cfce349a9020da7ef23d4cf02b090d6d8518904bf7c36bf4a72fef36",
+              "type": "string"
+            }
+          }
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 2,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Silver_Transformations",
+        "dependsOn": [
+          {
+            "activity": "Silver_Profiling",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "TridentNotebook",
+        "typeProperties": {
+          "notebookId": "37a5879f-6b2e-bbf8-4d9d-7c33b41be5af",
+          "workspaceId": "00000000-0000-0000-0000-000000000000",
+          "parameters": {
+            "layer": {
+              "value": "Bronze",
+              "type": "string"
+            },
+            "run_id": {
+              "value": {
+                "value": "@pipeline().RunId",
+                "type": "Expression"
+              },
+              "type": "string"
+            },
+            "base_url": {
+              "value": "https://services.odata.org/V4/Northwind/Northwind.svc",
+              "type": "string"
+            },
+            "excel_batch_id": {
+              "value": "e5c91ef7cfce349a9020da7ef23d4cf02b090d6d8518904bf7c36bf4a72fef36",
+              "type": "string"
+            },
+            "excel_file_path": {
+              "value": "/lakehouse/default/Files/FakeStore_Orders_OrderDetails_Customers_Products_Linked.xlsx",
+              "type": "string"
+            },
+            "source_type": {
+              "value": "Excel",
+              "type": "string"
+            }
+          }
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 2,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Bronze_Validation",
+        "dependsOn": [
+          {
+            "activity": "ForEach",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          },
+          {
+            "activity": "Excel_Ingestion",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "TridentNotebook",
+        "typeProperties": {
+          "notebookId": "39c0683c-b2c8-b628-43f5-d556024804fc",
+          "workspaceId": "00000000-0000-0000-0000-000000000000",
+          "parameters": {
+            "file_path": {
+              "value": "/lakehouse/default/Files/FakeStore_Orders_OrderDetails_Customers_Products_Linked.xlsx",
+              "type": "string"
+            },
+            "batch_id": {
+              "value": "e5c91ef7cfce349a9020da7ef23d4cf02b090d6d8518904bf7c36bf4a72fef36",
+              "type": "string"
+            }
+          }
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Excel_Ingestion",
+        "dependsOn": []
+      },
+      {
+        "type": "MicrosoftTeams",
+        "typeProperties": {
+          "content": "<p>🚨 PIPELINE FAILURE</p>\n<p>Pipeline: @{pipeline().Pipeline}</p>\n<p>Activity: ForEach</p>\n<p>Status: FailedError:@{activity('ForEach').error.message}</p>\n<p>Run ID: @{pipeline().RunId}</p>\n<p>Trigger Time: @{pipeline().TriggerTime}</p>\n<p>Please investigate the failed activity before the pipeline is rerun.</p>",
+          "teamId": "f9a418c4-f877-4144-890a-15f12f650df2",
+          "channelId": "19:f020ec8ce5704168b376a87af9d340f2@thread.tacv2",
+          "operationType": "SendMessageInChannel"
+        },
+        "externalReferences": {
+          "connection": "eaf1be35-ea5d-4255-a404-930523b129fd"
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "MicrosoftTeams",
+        "dependsOn": [
+          {
+            "activity": "ForEach",
+            "dependencyConditions": [
+              "Failed"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "MicrosoftTeams",
+        "typeProperties": {
+          "content": "<p>🚨 PIPELINE FAILURE</p>\n<p>Pipeline: @{pipeline().Pipeline}</p>\n<p>Activity: Bronze_Validation</p>\n<p>Status: FailedError:@{activity('Bronze_Validation').error.message}</p>\n<p>Run ID: @{pipeline().RunId}</p>\n<p>Trigger Time: @{pipeline().TriggerTime}</p>\n<p>Please investigate the failed activity before the pipeline is rerun.</p>",
+          "teamId": "f9a418c4-f877-4144-890a-15f12f650df2",
+          "channelId": "19:f020ec8ce5704168b376a87af9d340f2@thread.tacv2",
+          "operationType": "SendMessageInChannel"
+        },
+        "externalReferences": {
+          "connection": "eaf1be35-ea5d-4255-a404-930523b129fd"
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "MicrosoftTeams_bronze_validation",
+        "dependsOn": [
+          {
+            "activity": "Bronze_Validation",
+            "dependencyConditions": [
+              "Failed"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "MicrosoftTeams",
+        "typeProperties": {
+          "content": "<p>🚨 PIPELINE FAILURE</p>\n<p>Pipeline: @{pipeline().Pipeline}</p>\n<p>Activity: Silver_Validation</p>\n<p>Status: FailedError:@{activity('Silver_Validation').error.message}</p>\n<p>Run ID: @{pipeline().RunId}</p>\n<p>Trigger Time: @{pipeline().TriggerTime}</p>\n<p>Please investigate the failed activity before the pipeline is rerun.</p>",
+          "teamId": "f9a418c4-f877-4144-890a-15f12f650df2",
+          "channelId": "19:f020ec8ce5704168b376a87af9d340f2@thread.tacv2",
+          "operationType": "SendMessageInChannel"
+        },
+        "externalReferences": {
+          "connection": "eaf1be35-ea5d-4255-a404-930523b129fd"
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "MicrosoftTeams_silver_validation",
+        "dependsOn": [
+          {
+            "activity": "Silver_Validation",
+            "dependencyConditions": [
+              "Failed"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "MicrosoftTeams",
+        "typeProperties": {
+          "content": "<p>🚨 PIPELINE FAILURE</p>\n<p>Pipeline: @{pipeline().Pipeline}</p>\n<p>Activity: Silver_Profiling</p>\n<p>Status: FailedError:@{activity('Silver_Profiling').error.message}</p>\n<p>Run ID: @{pipeline().RunId}</p>\n<p>Trigger Time: @{pipeline().TriggerTime}</p>\n<p>Please investigate the failed activity before the pipeline is rerun.</p>",
+          "teamId": "f9a418c4-f877-4144-890a-15f12f650df2",
+          "channelId": "19:f020ec8ce5704168b376a87af9d340f2@thread.tacv2",
+          "operationType": "SendMessageInChannel"
+        },
+        "externalReferences": {
+          "connection": "eaf1be35-ea5d-4255-a404-930523b129fd"
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "MicrosoftTeams_silver_profiling",
+        "dependsOn": [
+          {
+            "activity": "Silver_Profiling",
+            "dependencyConditions": [
+              "Failed"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "MicrosoftTeams",
+        "typeProperties": {
+          "content": "<p>🚨 PIPELINE FAILURE</p>\n<p>Pipeline: @{pipeline().Pipeline}</p>\n<p>Activity: Silver_Transformations</p>\n<p>Status: FailedError:@{activity('Silver_Transformations').error.message}</p>\n<p>Run ID: @{pipeline().RunId}</p>\n<p>Trigger Time: @{pipeline().TriggerTime}</p>\n<p>Please investigate the failed activity before the pipeline is rerun.</p>",
+          "teamId": "f9a418c4-f877-4144-890a-15f12f650df2",
+          "channelId": "19:f020ec8ce5704168b376a87af9d340f2@thread.tacv2",
+          "operationType": "SendMessageInChannel"
+        },
+        "externalReferences": {
+          "connection": "eaf1be35-ea5d-4255-a404-930523b129fd"
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "MicrosoftTeams_silver_trans",
+        "dependsOn": [
+          {
+            "activity": "Silver_Transformations",
+            "dependencyConditions": [
+              "Failed"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "MicrosoftTeams",
+        "typeProperties": {
+          "content": "<p>✅ DATA PIPELINE COMPLETED SUCCESSFULLY</p>\n<p>Pipeline:@{pipeline().Pipeline}</p>\n<p>Status:✅ Success</p>\n<p>Stages Completed:</p>\n<p>✓ Bronze Validation</p>\n<p>✓ Silver Validation</p>\n<p>✓ Silver Profiling</p>\n<p>✓ Silver Transformations</p>\n<p>Run ID:@{pipeline().RunId}</p>\n<p>Started:@{pipeline().TriggerTime}</p>\n<p>Result:All validation, profiling, and transformation stages completed successfully.</p>",
+          "teamId": "f9a418c4-f877-4144-890a-15f12f650df2",
+          "channelId": "19:f9343d2e2d3d4cc3a5f43d3c684ef12d@thread.tacv2",
+          "operationType": "SendMessageInChannel"
+        },
+        "externalReferences": {
+          "connection": "eaf1be35-ea5d-4255-a404-930523b129fd"
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "MicrosoftTeams_success",
+        "dependsOn": [
+          {
+            "activity": "Silver_Transformations",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

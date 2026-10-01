@@ -1,0 +1,303 @@
+/// Employee contains descriptive information about employees associated with customer orders.
+/// 
+/// An employee can be associated with many orders. Employee filters Orders through EmployeeKey.
+/// 
+/// Employee workload is measured using Orders. Employee-associated sales are calculated by transferring the employee's filtered OrderID values from Orders to Order_Details through the dedicated Sales by Employee measure.
+/// 
+/// Do not expect the ordinary Total Sales measure to respond directly to an employee filter because the two fact tables are not directly related.
+table Employee
+	lineageTag: b73a088f-151d-43af-a21a-7542137d3776
+	sourceLineageTag: [dbo].[Dim_Employee]
+
+	/// The surrogate key identifying the employee in the dimensional model. It connects Employee to Orders.
+	column EmployeeKey
+		dataType: int64
+		formatString: 0
+		sourceProviderType: bigint
+		lineageTag: ca23a702-b5fa-4584-8d4d-ae95d4c790c8
+		sourceLineageTag: EmployeeKey
+		summarizeBy: none
+		sourceColumn: EmployeeKey
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	/// The original business identifier of the employee from the source system.
+	column EmployeeID
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 1ab3ec71-da3a-4884-a0c1-1ca8019a4720
+		sourceLineageTag: EmployeeID
+		summarizeBy: none
+		sourceColumn: EmployeeID
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Employee's last name. Use together with FirstName to identify employees in business-facing reports.
+	column LastName
+		dataType: string
+		sourceProviderType: varchar(100)
+		lineageTag: 1cee8a42-2c41-4931-8b37-51d7cb33a4e9
+		sourceLineageTag: LastName
+		summarizeBy: none
+		sourceColumn: LastName
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Employee's first name. Use together with LastName to identify employees in business-facing reports.
+	column FirstName
+		dataType: string
+		sourceProviderType: varchar(100)
+		lineageTag: 8f32acff-6672-44e4-9c53-35122df2ca52
+		sourceLineageTag: FirstName
+		summarizeBy: none
+		sourceColumn: FirstName
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	/// The employee's job title or role.
+	column Title
+		dataType: string
+		sourceProviderType: varchar(255)
+		lineageTag: 8c688672-4dc4-4e3a-862e-6b7c4d195857
+		sourceLineageTag: Title
+		summarizeBy: none
+		sourceColumn: Title
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Courtesy title associated with the employee, such as Mr., Ms., Mrs., or Dr., when available. It is descriptive employee information.
+	column TitleOfCourtesy
+		dataType: string
+		sourceProviderType: varchar(50)
+		lineageTag: 042ab071-473e-402b-8ac9-54c1ef8e6f5c
+		sourceLineageTag: TitleOfCourtesy
+		summarizeBy: none
+		sourceColumn: TitleOfCourtesy
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	/// The employee's date of birth. It is descriptive employee information and should not normally be used for business performance calculations.
+	column BirthDate
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: date
+		lineageTag: ea04f633-ec75-4e23-b06d-c81d09480c7a
+		sourceLineageTag: BirthDate
+		summarizeBy: none
+		sourceColumn: BirthDate
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	/// The date the employee was hired.
+	column HireDate
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: date
+		lineageTag: 962fdf3a-d22b-459f-8cbd-a97571ded644
+		sourceLineageTag: HireDate
+		summarizeBy: none
+		sourceColumn: HireDate
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	/// The employee's address.
+	column Address
+		dataType: string
+		sourceProviderType: varchar(500)
+		lineageTag: 8c7f3bc4-ca0f-4a23-907a-072ce9e78c3f
+		sourceLineageTag: Address
+		summarizeBy: none
+		sourceColumn: Address
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	/// City associated with the employee's address.
+	column City
+		dataType: string
+		sourceProviderType: varchar(100)
+		lineageTag: d9736d5b-6716-4c18-8972-264733d11a5c
+		sourceLineageTag: City
+		summarizeBy: none
+		sourceColumn: City
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Region, state, or administrative area associated with the employee's address.
+	column Region
+		dataType: string
+		sourceProviderType: varchar(100)
+		lineageTag: 3ef200e3-a684-4d54-857a-2e840f18ee22
+		sourceLineageTag: Region
+		summarizeBy: none
+		sourceColumn: Region
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Postal code associated with the employee's address.
+	column PostalCode
+		dataType: string
+		sourceProviderType: varchar(50)
+		lineageTag: d82f8ccf-c0a8-4e02-b672-f110153f9689
+		sourceLineageTag: PostalCode
+		summarizeBy: none
+		sourceColumn: PostalCode
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Country associated with the employee's address. Use it for geographic employee analysis.
+	column Country
+		dataType: string
+		sourceProviderType: varchar(100)
+		lineageTag: 3854b534-ba77-4337-8f6a-4cc796a7ce9e
+		sourceLineageTag: Country
+		summarizeBy: none
+		sourceColumn: Country
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Employee's home telephone number, when available. This is descriptive contact information and is not a business performance field.
+	column HomePhone
+		dataType: string
+		sourceProviderType: varchar(100)
+		lineageTag: 5519a6d0-a31c-4090-850b-e2f622265a0d
+		sourceLineageTag: HomePhone
+		summarizeBy: none
+		sourceColumn: HomePhone
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Employee's internal telephone extension, when available.
+	column Extension
+		dataType: string
+		sourceProviderType: varchar(50)
+		lineageTag: d5fbf693-e704-489a-a2e9-454373948d5a
+		sourceLineageTag: Extension
+		summarizeBy: none
+		sourceColumn: Extension
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Additional descriptive information about the employee. It should not be interpreted as a quantitative business measure.
+	column Notes
+		dataType: string
+		sourceProviderType: varchar(4000)
+		lineageTag: c56fd846-fbc5-4357-8d25-a79936f1feb0
+		sourceLineageTag: Notes
+		summarizeBy: none
+		sourceColumn: Notes
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Identifier representing the employee's reporting manager or supervisor, when available. It can be used to understand employee reporting structure.
+	column ReportsTo
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 549fb6a6-5247-4a0e-b76d-6e73c0b4cf52
+		sourceLineageTag: ReportsTo
+		summarizeBy: none
+		sourceColumn: ReportsTo
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	column ReportsToMissing
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		sourceProviderType: bit
+		lineageTag: b1d3669c-9982-471d-b427-3038b1c8a623
+		sourceLineageTag: ReportsToMissing
+		summarizeBy: none
+		sourceColumn: ReportsToMissing
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Date from which the employee dimension record became valid. It supports dimension history management.
+	column StartDate
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: date
+		lineageTag: 1dbd33fd-3cf9-46ec-907f-e24fdbd59962
+		sourceLineageTag: StartDate
+		summarizeBy: none
+		sourceColumn: StartDate
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Date until which the employee dimension record is valid. It supports dimension history management.
+	column EndDate
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: date
+		lineageTag: 2df27581-39ac-4dcd-a35a-f4b6cdde4bb0
+		sourceLineageTag: EndDate
+		summarizeBy: none
+		sourceColumn: EndDate
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Indicates whether the employee dimension record represents the current version of the employee. Use the current record when the analysis requires the latest employee information.
+	column IsCurrent
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		sourceProviderType: bit
+		lineageTag: 9eff08fd-0bd0-4b5f-a81f-f6902b8caf58
+		sourceLineageTag: IsCurrent
+		summarizeBy: none
+		sourceColumn: IsCurrent
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Employee = entity
+		mode: directLake
+		source
+			entityName: Dim_Employee
+			schemaName: dbo
+			expressionSource: DatabaseQuery
+
+	changedProperty = Description
+
+	changedProperty = Name
+
+	annotation PBI_ResultType = Table
+

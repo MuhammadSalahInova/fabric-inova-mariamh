@@ -1,0 +1,292 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
+  "name": "7a0a52e0b2ee56ae81bb",
+  "position": {
+    "x": 960.7723250201127,
+    "y": 305.84070796460179,
+    "z": 7000,
+    "height": 761.512469831054,
+    "width": 959.22767497988741,
+    "tabOrder": 7000
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Product"
+                    }
+                  },
+                  "Property": "ProductName"
+                }
+              },
+              "queryRef": "Product.ProductName",
+              "nativeQueryRef": "ProductName1"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Category"
+                    }
+                  },
+                  "Property": "CategoryName"
+                }
+              },
+              "queryRef": "Category.CategoryName",
+              "nativeQueryRef": "CategoryName1"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Supplier"
+                    }
+                  },
+                  "Property": "CompanyName"
+                }
+              },
+              "queryRef": "Supplier.CompanyName",
+              "nativeQueryRef": "CompanyName1"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Product"
+                    }
+                  },
+                  "Property": "QuantityPerUnit"
+                }
+              },
+              "queryRef": "Product.QuantityPerUnit",
+              "nativeQueryRef": "QuantityPerUnit1"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Product"
+                        }
+                      },
+                      "Property": "UnitPrice"
+                    }
+                  },
+                  "Function": 0
+                }
+              },
+              "queryRef": "Sum(Product.UnitPrice)",
+              "nativeQueryRef": "Sum of UnitPrice"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Product"
+                    }
+                  },
+                  "Property": "Discontinued"
+                }
+              },
+              "queryRef": "Product.Discontinued",
+              "nativeQueryRef": "Discontinued1"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Order_Details"
+                    }
+                  },
+                  "Property": "Total Sales"
+                }
+              },
+              "queryRef": "Order_Details.Total Sales",
+              "nativeQueryRef": "Total Sales1"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Order_Details"
+                    }
+                  },
+                  "Property": "Total Quantity"
+                }
+              },
+              "queryRef": "Order_Details.Total Quantity",
+              "nativeQueryRef": "Total Quantity1"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Order_Details"
+                    }
+                  },
+                  "Property": "Gross Sales"
+                }
+              },
+              "queryRef": "Order_Details.Gross Sales",
+              "nativeQueryRef": "Gross Sales1"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Order_Details"
+                    }
+                  },
+                  "Property": "Discount Rate"
+                }
+              },
+              "queryRef": "Order_Details.Discount Rate",
+              "nativeQueryRef": "Discount Rate1"
+            }
+          ]
+        }
+      }
+    },
+    "objects": {
+      "columnHeaders": [
+        {
+          "properties": {
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "13D"
+                }
+              }
+            },
+            "bold": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "values": [
+        {
+          "properties": {
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "12D"
+                }
+              }
+            },
+            "fontColorPrimary": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 6,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            },
+            "fontColorSecondary": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 2,
+                      "Percent": -0.25
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "text": {
+              "expr": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Product"
+                    }
+                  },
+                  "Property": "Selected Product Title"
+                }
+              }
+            },
+            "fontFamily": {
+              "expr": {
+                "Literal": {
+                  "Value": "'''Arial Black'''"
+                }
+              }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 5,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            },
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "subTitle": [
+        {
+          "properties": {
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 6,
+                      "Percent": 0.2
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

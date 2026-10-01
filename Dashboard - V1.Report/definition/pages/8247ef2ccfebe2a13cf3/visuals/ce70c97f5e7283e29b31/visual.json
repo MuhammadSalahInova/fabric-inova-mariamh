@@ -1,0 +1,39 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
+  "name": "ce70c97f5e7283e29b31",
+  "position": {
+    "x": 0,
+    "y": 0,
+    "z": 8000,
+    "height": 84.955752212389385,
+    "width": 824.84312148028971,
+    "tabOrder": 8000
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "Customer & Market Analysis",
+                    "textStyle": {
+                      "fontWeight": "bold",
+                      "fontSize": "36pt",
+                      "color": "#d64550"
+                    }
+                  }
+                ],
+                "horizontalTextAlignment": "center"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

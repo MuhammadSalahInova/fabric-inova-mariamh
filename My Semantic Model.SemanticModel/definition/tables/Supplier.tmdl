@@ -1,0 +1,227 @@
+/// Supplier contains descriptive information about suppliers that provide products to the company.
+/// 
+/// A supplier can provide many products. Supplier filtering reaches sales through the product dimension:
+/// 
+/// Supplier → Product → Order_Details
+/// 
+/// Use this table for supplier-level analysis, such as sales by supplier, quantity by supplier, products supplied, and supplier contribution to revenue.
+/// 
+/// Supplier-level sales are calculated from Order_Details, not stored directly in Supplier.
+table Supplier
+	lineageTag: b3d0b443-211f-40d5-b2b5-e734b777a346
+	sourceLineageTag: [dbo].[Dim_Supplier]
+
+	column SupplierKey
+		dataType: int64
+		formatString: 0
+		sourceProviderType: bigint
+		lineageTag: ae69cc62-5780-4dbd-895e-d2d35852eaba
+		sourceLineageTag: SupplierKey
+		summarizeBy: none
+		sourceColumn: SupplierKey
+
+		annotation SummarizationSetBy = Automatic
+
+	/// The original business identifier of the supplier from the source system.
+	column SupplierID
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: f407f91d-c689-47ef-b76a-888332b6d3a1
+		sourceLineageTag: SupplierID
+		summarizeBy: none
+		sourceColumn: SupplierID
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	/// The supplier's company name. Use it as the main supplier label in visuals and analysis.
+	column CompanyName
+		dataType: string
+		sourceProviderType: varchar(255)
+		lineageTag: 3fec2d69-529b-4e93-b6b1-d22dc3e7af5e
+		sourceLineageTag: CompanyName
+		summarizeBy: none
+		sourceColumn: CompanyName
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	column ContactName
+		dataType: string
+		sourceProviderType: varchar(255)
+		lineageTag: b3b9d11b-9708-40de-95c5-99bf4587b208
+		sourceLineageTag: ContactName
+		summarizeBy: none
+		sourceColumn: ContactName
+
+		annotation SummarizationSetBy = Automatic
+
+	column ContactTitle
+		dataType: string
+		sourceProviderType: varchar(255)
+		lineageTag: d3ac5d31-93b4-46b7-826d-593784eb97fe
+		sourceLineageTag: ContactTitle
+		summarizeBy: none
+		sourceColumn: ContactTitle
+
+		annotation SummarizationSetBy = Automatic
+
+	/// The supplier's business address.
+	column Address
+		dataType: string
+		sourceProviderType: varchar(500)
+		lineageTag: a98d3236-771d-46b6-b996-84365f56e794
+		sourceLineageTag: Address
+		summarizeBy: none
+		sourceColumn: Address
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	/// The supplier's city.
+	column City
+		dataType: string
+		sourceProviderType: varchar(100)
+		lineageTag: a6212ea9-0281-4219-a71c-11f10b3bb755
+		sourceLineageTag: City
+		summarizeBy: none
+		sourceColumn: City
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	/// The supplier's region, state, or administrative area.
+	column Region
+		dataType: string
+		sourceProviderType: varchar(100)
+		lineageTag: 54913e5f-da13-4a6f-822a-89e3b4867a29
+		sourceLineageTag: Region
+		summarizeBy: none
+		sourceColumn: Region
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	/// The supplier's postal code.
+	column PostalCode
+		dataType: string
+		sourceProviderType: varchar(50)
+		lineageTag: 836b14fc-bb1e-46f9-b6a6-28bd29ebc5aa
+		sourceLineageTag: PostalCode
+		summarizeBy: none
+		sourceColumn: PostalCode
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	column Country
+		dataType: string
+		sourceProviderType: varchar(100)
+		lineageTag: 92e5cb39-e0a5-44c6-ba77-a54acc588fad
+		sourceLineageTag: Country
+		summarizeBy: none
+		sourceColumn: Country
+
+		annotation SummarizationSetBy = Automatic
+
+	/// The supplier's telephone contact information. It is descriptive information and is not a measure.
+	column Phone
+		dataType: string
+		sourceProviderType: varchar(100)
+		lineageTag: 304c3f30-17a8-45b3-a5b2-0450bc85bcbb
+		sourceLineageTag: Phone
+		summarizeBy: none
+		sourceColumn: Phone
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	/// The supplier's fax contact information, when available.
+	column Fax
+		dataType: string
+		sourceProviderType: varchar(100)
+		lineageTag: 113fb6e8-d99c-431c-bd49-19f3c82b30b1
+		sourceLineageTag: Fax
+		summarizeBy: none
+		sourceColumn: Fax
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	/// The supplier's website or homepage information, when available.
+	column HomePage
+		dataType: string
+		sourceProviderType: varchar(1000)
+		lineageTag: 9f075d73-4efd-414d-8009-f86a048493f3
+		sourceLineageTag: HomePage
+		summarizeBy: none
+		sourceColumn: HomePage
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	/// The date from which this supplier dimension record became valid.
+	column StartDate
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: date
+		lineageTag: 16f30cb0-a7e6-45a6-b3f3-32dd0771020a
+		sourceLineageTag: StartDate
+		summarizeBy: none
+		sourceColumn: StartDate
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	/// The date until which this supplier dimension record is valid.
+	column EndDate
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: date
+		lineageTag: ff3c5296-7127-4cb4-884f-9687427d0636
+		sourceLineageTag: EndDate
+		summarizeBy: none
+		sourceColumn: EndDate
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Indicates whether this is the current version of the supplier dimension record.
+	column IsCurrent
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		sourceProviderType: bit
+		lineageTag: 804b6dda-f514-4881-a25b-8c9afa89588f
+		sourceLineageTag: IsCurrent
+		summarizeBy: none
+		sourceColumn: IsCurrent
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Supplier = entity
+		mode: directLake
+		source
+			entityName: Dim_Supplier
+			schemaName: dbo
+			expressionSource: DatabaseQuery
+
+	changedProperty = Name
+
+	changedProperty = Description
+
+	annotation PBI_ResultType = Table
+

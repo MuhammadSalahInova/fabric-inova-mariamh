@@ -1,0 +1,46 @@
+relationship eca7540c-7749-e5a2-0ecc-0f8d496fd2e0
+	fromColumn: Order_Details.CustomerKey
+	toColumn: Customer.CustomerKey
+
+relationship d95091cd-428d-36fb-075d-a45c9338dcf6
+	fromColumn: Orders.EmployeeKey
+	toColumn: Employee.EmployeeKey
+
+relationship 1cfb2034-1108-4663-bd3e-81bcc6b2c270
+	fromColumn: Orders.CustomerKey
+	toColumn: Customer.CustomerKey
+
+relationship 93791877-5202-814b-4f6d-b5527f7b9d87
+	fromColumn: Orders.ShipperKey
+	toColumn: Shipper.ShipperKey
+
+relationship 171e2fc8-2873-e7b8-0492-f1821add76e2
+	fromColumn: Order_Details.ProductKey
+	toColumn: Product.ProductKey
+
+relationship 7310d69c-1cae-8041-cc03-40231e674a3d
+	fromColumn: Orders.OrderDateKey
+	toColumn: Date.DateKey
+
+relationship df1f51bf-6373-7f89-1ce9-8eb524fac380
+	isActive: false
+	fromColumn: Orders.ShippedDateKey
+	toColumn: Date.DateKey
+
+relationship 252b287e-9483-1c67-3c66-58ea89d179b4
+	isActive: false
+	fromColumn: Orders.RequiredDateKey
+	toColumn: Date.DateKey
+
+relationship 007a15b9-4149-136c-651f-181e8655dede
+	fromColumn: Order_Details.OrderDateKey
+	toColumn: Date.DateKey
+
+relationship 637ef902-abc6-968e-7541-50cff474030a
+	fromColumn: Product.CategoryID
+	toColumn: Category.CategoryID
+
+relationship ae74d91d-db56-a7cc-619f-b32de992278c
+	fromColumn: Product.SupplierID
+	toColumn: Supplier.SupplierID
+

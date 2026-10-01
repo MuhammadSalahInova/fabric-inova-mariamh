@@ -1,0 +1,445 @@
+/// Orders is the order-level fact table.
+/// 
+/// The grain is one row per complete customer order.
+/// 
+/// This table contains order identifiers, customer, employee, shipper, order date, required date, shipped date, freight, shipment destination, shipment status, and OrderCount.
+/// 
+/// Use this table for:
+/// 
+/// - Total Orders
+/// - Shipped Orders
+/// - Unshipped Orders
+/// - Shipped Order Rate
+/// - Total Freight
+/// - Average Freight per Order
+/// - Employee workload
+/// - Shipper workload
+/// - Required-date analysis
+/// - Shipped-date analysis
+/// - Orders YTD
+/// 
+/// Freight is an order-level value. Do not calculate freight by joining or summing it across order-detail rows, because an order with multiple product lines could duplicate the freight amount.
+table Orders
+	lineageTag: f7f9f29e-9563-46d1-90ec-b667f53b5acf
+	sourceLineageTag: [dbo].[Fact_Orders]
+
+	/// Number of unique customer orders, calculated using distinct OrderID values from Orders. Use this measure instead of counting Order_Details rows when the question asks for orders.
+	measure 'Total Orders' =
+			
+			DISTINCTCOUNT(
+			    'Orders'[OrderID]
+			)
+		formatString: 0
+		lineageTag: 30062d21-9ca8-4d89-9039-a13945fa88f0
+
+		changedProperty = Name
+
+		changedProperty = Description
+
+	/// Average Order Value is the average revenue generated per unique customer order. It is calculated as Total Sales divided by Total Orders.
+	measure 'Average Order Value' =
+			
+			DIVIDE(
+			    [Total Sales],
+			    [Total Orders],
+			    0
+			)
+		formatString: "£"#,0.###############;-"£"#,0.###############;"£"#,0.###############
+		lineageTag: a00ec248-8623-4f5c-a64b-c3def8f293f6
+
+		changedProperty = Name
+
+		changedProperty = FormatString
+
+		changedProperty = Description
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-GB"}
+
+	/// Average Items per Order is the average number of product units contained in each customer order. It is calculated as Total Quantity divided by Total Orders.
+	measure 'Average Items per Order' =
+			
+			DIVIDE(
+			    [Total Quantity],
+			    [Total Orders],
+			    0
+			)
+		formatString: 0.00
+		lineageTag: 22f736e6-3de2-442c-ba3c-d4091d4c3931
+
+		changedProperty = Name
+
+		changedProperty = FormatString
+
+		changedProperty = Description
+
+	/// Orders YTD is the cumulative number of unique customer orders from the beginning of the selected calendar year through the current date context.
+	measure 'Orders YTD' =
+			
+			TOTALYTD(
+			    [Total Orders],
+			    'Date'[Date]
+			)
+		formatString: 0
+		lineageTag: ac3394f4-6459-4202-9d90-bb97eed90007
+
+		changedProperty = Name
+
+		changedProperty = Description
+
+	/// Orders by Required Date counts unique orders using RequiredDateKey as the active date role for the calculation. Use it when the question concerns when orders were required rather than when they were placed.
+	measure 'Orders by Required Date' =
+			
+			CALCULATE(
+			    [Total Orders],
+			    USERELATIONSHIP(
+			        'Date'[DateKey],
+			        'Orders'[RequiredDateKey]
+			    )
+			)
+		formatString: 0
+		lineageTag: f5c1178b-e45c-41d6-9f06-3af419e769ab
+
+		changedProperty = Name
+
+		changedProperty = Description
+
+	/// Orders by Shipped Date counts unique orders using ShippedDateKey as the active date role for the calculation. Use it for shipment activity over time.
+	measure 'Orders by Shipped Date' =
+			
+			CALCULATE(
+			    [Total Orders],
+			    USERELATIONSHIP(
+			        'Date'[DateKey],
+			        'Orders'[ShippedDateKey]
+			    )
+			)
+		formatString: 0
+		lineageTag: c7563898-2687-44a8-a0e3-64ffbe5a80e8
+
+		changedProperty = Name
+
+		changedProperty = Description
+
+	/// Unshipped Orders is the number of unique customer orders that have not been shipped according to ShippedStatus.
+	measure 'Unshipped Orders' =
+			
+			[Total Orders] - [Shipped Orders]
+		formatString: 0
+		lineageTag: 6f9f9185-dd12-4433-876c-6b2a0522d03b
+
+		changedProperty = Name
+
+		changedProperty = Description
+
+	/// Total Freight is the total shipping cost across orders in the current filter context. Freight is an order-level value and must be calculated from Orders.
+	measure 'Total Freight' =
+			
+			SUM(
+			    'Orders'[Freight]
+			)
+		formatString: "£"#,0.###############;-"£"#,0.###############;"£"#,0.###############
+		lineageTag: d307fb9f-48ad-4ab1-895f-1272d89c0f0c
+
+		changedProperty = Name
+
+		changedProperty = FormatString
+
+		changedProperty = Description
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-GB"}
+
+	/// Average Freight per Order is the average shipping cost per unique customer order. It is calculated as Total Freight divided by Total Orders.
+	measure 'Average Freight per Order' =
+			
+			DIVIDE(
+			    [Total Freight],
+			    [Total Orders],
+			    0
+			)
+		formatString: "£"#,0.###############;-"£"#,0.###############;"£"#,0.###############
+		lineageTag: f22c046e-98de-4d54-b597-cd8a7a7e9fdd
+
+		changedProperty = Name
+
+		changedProperty = FormatString
+
+		changedProperty = Description
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-GB"}
+
+	/// Shipped Orders is the number of unique customer orders that have been shipped according to ShippedStatus. It is an order-level metric.
+	measure 'Shipped Orders' =
+			
+			CALCULATE(
+			    [Total Orders],
+			    'Orders'[ShippedStatus] = "Shipped"
+			)
+		formatString: 0
+		lineageTag: 60947396-0320-443b-a6c5-6512343f4549
+
+		changedProperty = Name
+
+		changedProperty = Description
+
+	/// Shipped Order Rate is the percentage of unique customer orders that have been shipped. It is calculated as Shipped Orders divided by Total Orders.
+	measure 'Shipped Order Rate' =
+			
+			DIVIDE(
+			    [Shipped Orders],
+			    [Total Orders],
+			    0
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 14e2514a-be26-4a4f-b22d-bdc543720f09
+
+		changedProperty = Name
+
+		changedProperty = FormatString
+
+		changedProperty = Description
+
+	/// Surrogate key uniquely identifying an order fact record.
+	column OrderKey
+		dataType: int64
+		formatString: 0
+		sourceProviderType: bigint
+		lineageTag: 363d1daa-cd43-423a-9262-96271fa212d0
+		sourceLineageTag: OrderKey
+		summarizeBy: count
+		sourceColumn: OrderKey
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Original business identifier of the customer order. It is the natural order identifier used to count unique orders.
+	column OrderID
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: c7e763ae-2918-414f-888c-93b43d5f8aaf
+		sourceLineageTag: OrderID
+		summarizeBy: count
+		sourceColumn: OrderID
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Surrogate key identifying the customer who placed the order. It connects Orders to Customer.
+	column CustomerKey
+		dataType: int64
+		formatString: 0
+		sourceProviderType: bigint
+		lineageTag: 396fd7ae-274e-40d0-bbb2-3514ae708d5e
+		sourceLineageTag: CustomerKey
+		summarizeBy: none
+		sourceColumn: CustomerKey
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Surrogate key identifying the employee responsible for the order. It connects Orders to Employee.
+	column EmployeeKey
+		dataType: int64
+		formatString: 0
+		sourceProviderType: bigint
+		lineageTag: 88f360b2-c1f1-47d2-a79b-6d3e12099986
+		sourceLineageTag: EmployeeKey
+		summarizeBy: none
+		sourceColumn: EmployeeKey
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Surrogate key identifying the shipper associated with the order. It connects Orders to Shipper.
+	column ShipperKey
+		dataType: int64
+		formatString: 0
+		sourceProviderType: bigint
+		lineageTag: d0732436-6f0d-442e-8a50-54d6c95516d6
+		sourceLineageTag: ShipperKey
+		summarizeBy: none
+		sourceColumn: ShipperKey
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Date key representing when the order was placed. This is the normal date role for order analysis.
+	column OrderDateKey
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: df1bc5a8-92ec-48c3-abc0-3fd26d315eb4
+		sourceLineageTag: OrderDateKey
+		summarizeBy: none
+		sourceColumn: OrderDateKey
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Date key representing the date by which the customer required the order. Use it when analyzing orders by required date.
+	column RequiredDateKey
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 3e0fcf5d-eb02-4cb5-96b2-655037a0f924
+		sourceLineageTag: RequiredDateKey
+		summarizeBy: count
+		sourceColumn: RequiredDateKey
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Date key representing when the order was shipped. Use it for shipment-date analysis. A blank value can represent an order that has not been shipped. The source sentinel date 9999-12-31 should be interpreted as not shipped rather than as a real business date.
+	column ShippedDateKey
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 7dcd9a76-84ab-4ac5-bc60-9746d0655fcc
+		sourceLineageTag: ShippedDateKey
+		summarizeBy: count
+		sourceColumn: ShippedDateKey
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Shipping cost associated with the complete order. Freight is stored at order grain and should be summed from Orders rather than from Order_Details to avoid duplication.
+	column Freight
+		dataType: double
+		sourceProviderType: decimal(18, 2)
+		lineageTag: 6d6726ba-f05e-4452-8a68-e8e352bd86fd
+		sourceLineageTag: Freight
+		summarizeBy: sum
+		sourceColumn: Freight
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	/// Order-level counting field. Each Orders row represents one order, so summing OrderCount represents the number of orders represented by the current filter context.
+	column OrderCount
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 803c3135-e86a-4b7c-b3b3-79b3d85a4c1d
+		sourceLineageTag: OrderCount
+		summarizeBy: sum
+		sourceColumn: OrderCount
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Name associated with the order's shipping destination.
+	column ShipName
+		dataType: string
+		sourceProviderType: varchar(255)
+		lineageTag: 1e2187cf-56fc-4a23-9785-e89fb7ffc06a
+		sourceLineageTag: ShipName
+		summarizeBy: none
+		sourceColumn: ShipName
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Shipping destination address associated with the order.
+	column ShipAddress
+		dataType: string
+		sourceProviderType: varchar(500)
+		lineageTag: cc393814-7fb9-4bbf-8332-b5f4ff984ff3
+		sourceLineageTag: ShipAddress
+		summarizeBy: none
+		sourceColumn: ShipAddress
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Shipping destination city associated with the order.
+	column ShipCity
+		dataType: string
+		sourceProviderType: varchar(100)
+		lineageTag: b507102d-36eb-4a61-9913-490610c68dc5
+		sourceLineageTag: ShipCity
+		summarizeBy: none
+		sourceColumn: ShipCity
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Shipping destination region, state, or administrative area.
+	column ShipRegion
+		dataType: string
+		sourceProviderType: varchar(100)
+		lineageTag: b0ffe293-cefc-4a30-a741-061625cc1d77
+		sourceLineageTag: ShipRegion
+		summarizeBy: none
+		sourceColumn: ShipRegion
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Shipping destination postal code.
+	column ShipPostalCode
+		dataType: string
+		sourceProviderType: varchar(50)
+		lineageTag: 7f4c75f3-a534-44b9-84d2-70bc595340e9
+		sourceLineageTag: ShipPostalCode
+		summarizeBy: none
+		sourceColumn: ShipPostalCode
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Shipping destination country.
+	column ShipCountry
+		dataType: string
+		sourceProviderType: varchar(100)
+		lineageTag: 5bc093ac-a0e7-49cc-9121-463733440a97
+		sourceLineageTag: ShipCountry
+		summarizeBy: none
+		sourceColumn: ShipCountry
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Indicates whether the order has been shipped. Use this field for shipped, unshipped, and shipment-rate calculations. Shipment metrics should be based on unique orders, not order-detail lines.
+	column ShippedStatus
+		dataType: string
+		sourceProviderType: varchar(100)
+		lineageTag: 41bc2723-e37b-4899-9391-96e6ef4e9493
+		sourceLineageTag: ShippedStatus
+		summarizeBy: none
+		sourceColumn: ShippedStatus
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Orders = entity
+		mode: directLake
+		source
+			entityName: Fact_Orders
+			schemaName: dbo
+			expressionSource: DatabaseQuery
+
+	changedProperty = Description
+
+	changedProperty = Name
+
+	annotation PBI_ResultType = Table
+

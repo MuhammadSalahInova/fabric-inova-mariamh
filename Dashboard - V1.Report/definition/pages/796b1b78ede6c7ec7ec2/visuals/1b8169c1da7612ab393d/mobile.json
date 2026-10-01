@@ -1,0 +1,53 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainerMobileState/2.7.0/schema.json",
+  "position": {
+    "x": 0,
+    "y": 452,
+    "z": 7000,
+    "height": 373,
+    "width": 324,
+    "tabOrder": 7000
+  },
+  "objects": {
+    "categoryAxis": [
+      {
+        "properties": {
+          "fontSize": {
+            "expr": {
+              "Literal": {
+                "Value": "9D"
+              }
+            }
+          },
+          "bold": {
+            "expr": {
+              "Literal": {
+                "Value": "false"
+              }
+            }
+          }
+        }
+      }
+    ],
+    "valueAxis": [
+      {
+        "properties": {
+          "fontSize": {
+            "expr": {
+              "Literal": {
+                "Value": "9D"
+              }
+            }
+          },
+          "bold": {
+            "expr": {
+              "Literal": {
+                "Value": "true"
+              }
+            }
+          }
+        }
+      }
+    ]
+  }
+}

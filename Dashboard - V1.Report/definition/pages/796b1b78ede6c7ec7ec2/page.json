@@ -1,0 +1,88 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.1.0/schema.json",
+  "name": "796b1b78ede6c7ec7ec2",
+  "displayName": "Customer Details",
+  "displayOption": "FitToPage",
+  "height": 1080,
+  "width": 1920,
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "ba2a7ef06e0ea4bd3e14",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Customer"
+              }
+            },
+            "Property": "CompanyName"
+          }
+        },
+        "type": "Categorical",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "c",
+              "Entity": "Customer",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "In": {
+                  "Expressions": [
+                    {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Source": "c"
+                          }
+                        },
+                        "Property": "CompanyName"
+                      }
+                    }
+                  ],
+                  "Values": [
+                    [
+                      {
+                        "Literal": {
+                          "Value": "'Ernst Handel'"
+                        }
+                      }
+                    ]
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        "howCreated": "Drillthrough"
+      }
+    ]
+  },
+  "pageBinding": {
+    "name": "f5b901cb9ca46e016598",
+    "type": "Drillthrough",
+    "parameters": [
+      {
+        "name": "eeaa63c251b6b7d16636",
+        "boundFilter": "ba2a7ef06e0ea4bd3e14",
+        "asAggregation": false,
+        "qnaSingleSelectRequired": false,
+        "fieldExpr": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Customer"
+              }
+            },
+            "Property": "CompanyName"
+          }
+        }
+      }
+    ]
+  }
+}

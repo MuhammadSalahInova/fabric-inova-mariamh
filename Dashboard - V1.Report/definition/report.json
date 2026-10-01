@@ -1,0 +1,213 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/report/3.3.0/schema.json",
+  "themeCollection": {
+    "baseTheme": {
+      "name": "Fluent2-CY26SU09",
+      "reportVersionAtImport": {
+        "visual": "2.13.0",
+        "report": "3.4.0",
+        "page": "2.3.1"
+      },
+      "type": "SharedResources"
+    },
+    "customTheme": {
+      "name": "CopilotDefault",
+      "reportVersionAtImport": {
+        "visual": "2.13.0",
+        "report": "3.4.0",
+        "page": "2.3.1"
+      },
+      "type": "SharedResources"
+    }
+  },
+  "objects": {
+    "section": [
+      {
+        "properties": {
+          "verticalAlignment": {
+            "expr": {
+              "Literal": {
+                "Value": "'Top'"
+              }
+            }
+          }
+        }
+      }
+    ],
+    "outspacePane": [
+      {
+        "properties": {
+          "expanded": {
+            "expr": {
+              "Literal": {
+                "Value": "false"
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  "resourcePackages": [
+    {
+      "name": "SharedResources",
+      "type": "SharedResources",
+      "items": [
+        {
+          "name": "CopilotDefault",
+          "path": "BuiltInThemes/CopilotDefault.json",
+          "type": "CustomTheme"
+        },
+        {
+          "name": "Fluent2-CY26SU09",
+          "path": "BaseThemes/Fluent2-CY26SU09.json",
+          "type": "BaseTheme"
+        }
+      ]
+    },
+    {
+      "name": "RegisteredResources",
+      "type": "RegisteredResources",
+      "items": [
+        {
+          "name": "analytics8858928461998073.png",
+          "path": "analytics8858928461998073.png",
+          "type": "Image"
+        },
+        {
+          "name": "analytics9360360791562273.png",
+          "path": "analytics9360360791562273.png",
+          "type": "Image"
+        },
+        {
+          "name": "average6491803934488123.png",
+          "path": "average6491803934488123.png",
+          "type": "Image"
+        },
+        {
+          "name": "average7422907481366504.png",
+          "path": "average7422907481366504.png",
+          "type": "Image"
+        },
+        {
+          "name": "average8416494131778552.png",
+          "path": "average8416494131778552.png",
+          "type": "Image"
+        },
+        {
+          "name": "box08900636939933293.png",
+          "path": "box08900636939933293.png",
+          "type": "Image"
+        },
+        {
+          "name": "boxes004925817354869522.png",
+          "path": "boxes004925817354869522.png",
+          "type": "Image"
+        },
+        {
+          "name": "boxes37126809314390885.png",
+          "path": "boxes37126809314390885.png",
+          "type": "Image"
+        },
+        {
+          "name": "boxes7550911143192083.png",
+          "path": "boxes7550911143192083.png",
+          "type": "Image"
+        },
+        {
+          "name": "boxes8688925129918604.png",
+          "path": "boxes8688925129918604.png",
+          "type": "Image"
+        },
+        {
+          "name": "calc31175157634725725.png",
+          "path": "calc31175157634725725.png",
+          "type": "Image"
+        },
+        {
+          "name": "money-bag08767187495534678.png",
+          "path": "money-bag08767187495534678.png",
+          "type": "Image"
+        },
+        {
+          "name": "money-bag1822429245393653.png",
+          "path": "money-bag1822429245393653.png",
+          "type": "Image"
+        },
+        {
+          "name": "money-bag20455043246574045.png",
+          "path": "money-bag20455043246574045.png",
+          "type": "Image"
+        },
+        {
+          "name": "money-bag48647418357419203.png",
+          "path": "money-bag48647418357419203.png",
+          "type": "Image"
+        },
+        {
+          "name": "money-bag9089648134655698.png",
+          "path": "money-bag9089648134655698.png",
+          "type": "Image"
+        },
+        {
+          "name": "money-bag9687581920687888.png",
+          "path": "money-bag9687581920687888.png",
+          "type": "Image"
+        },
+        {
+          "name": "package-delivered23811496181506575.png",
+          "path": "package-delivered23811496181506575.png",
+          "type": "Image"
+        },
+        {
+          "name": "price-tag38261911273176974.png",
+          "path": "price-tag38261911273176974.png",
+          "type": "Image"
+        },
+        {
+          "name": "road-freight09653057727638326.png",
+          "path": "road-freight09653057727638326.png",
+          "type": "Image"
+        },
+        {
+          "name": "sale14023561961167486.png",
+          "path": "sale14023561961167486.png",
+          "type": "Image"
+        },
+        {
+          "name": "satisfied-customer8680240137572167.png",
+          "path": "satisfied-customer8680240137572167.png",
+          "type": "Image"
+        },
+        {
+          "name": "shopping17594656856604662.png",
+          "path": "shopping17594656856604662.png",
+          "type": "Image"
+        },
+        {
+          "name": "shopping4118952949484037.png",
+          "path": "shopping4118952949484037.png",
+          "type": "Image"
+        },
+        {
+          "name": "shopping7159530757387242.png",
+          "path": "shopping7159530757387242.png",
+          "type": "Image"
+        },
+        {
+          "name": "sold6739141702104716.png",
+          "path": "sold6739141702104716.png",
+          "type": "Image"
+        }
+      ]
+    }
+  ],
+  "settings": {
+    "useStylableVisualContainerHeader": true,
+    "exportDataMode": "AllowSummarized",
+    "defaultDrillFilterOtherVisuals": true,
+    "allowChangeFilterTypes": true,
+    "useEnhancedTooltips": true,
+    "useDefaultAggregateDisplayName": true
+  }
+}

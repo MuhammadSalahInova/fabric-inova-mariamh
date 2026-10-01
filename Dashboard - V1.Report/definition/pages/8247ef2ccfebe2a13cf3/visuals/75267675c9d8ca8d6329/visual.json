@@ -1,0 +1,359 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
+  "name": "75267675c9d8ca8d6329",
+  "position": {
+    "x": 0,
+    "y": 559.16331456154467,
+    "z": 9000,
+    "height": 520.54706355591316,
+    "width": 929.87932421560743,
+    "tabOrder": 9000
+  },
+  "visual": {
+    "visualType": "azureMap",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Customer"
+                    }
+                  },
+                  "Property": "CompanyName"
+                }
+              },
+              "queryRef": "Customer.CompanyName",
+              "nativeQueryRef": "CompanyName1",
+              "active": true
+            }
+          ]
+        },
+        "Size": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Order_Details"
+                    }
+                  },
+                  "Property": "Total Sales"
+                }
+              },
+              "queryRef": "Order_Details.Total Sales",
+              "nativeQueryRef": "Total Sales1"
+            }
+          ]
+        },
+        "Tooltips": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Orders"
+                    }
+                  },
+                  "Property": "Total Orders"
+                }
+              },
+              "queryRef": "Orders.Total Orders",
+              "nativeQueryRef": "Total Orders1"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Customer"
+                    }
+                  },
+                  "Property": "Customers With Orders"
+                }
+              },
+              "queryRef": "Customer.Customers With Orders",
+              "nativeQueryRef": "Customers With Orders1"
+            }
+          ]
+        }
+      }
+    },
+    "objects": {
+      "dataPoint": [
+        {
+          "properties": {
+            "fill": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 9,
+                      "Percent": -0.25
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "categoryLabels": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "mapControls": [
+        {
+          "properties": {
+            "defaultStyle": {
+              "expr": {
+                "Literal": {
+                  "Value": "'road'"
+                }
+              }
+            },
+            "showStylePicker": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "showNavigationControls": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "showSelectionControl": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "zoom": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
+            },
+            "centerLatitude": {
+              "expr": {
+                "Literal": {
+                  "Value": "20.03325958407224D"
+                }
+              }
+            },
+            "centerLongitude": {
+              "expr": {
+                "Literal": {
+                  "Value": "29.94375991821289D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "bubbleLayer": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "bubbleRadius": {
+              "expr": {
+                "Literal": {
+                  "Value": "4L"
+                }
+              }
+            },
+            "minBubbleRadius": {
+              "expr": {
+                "Literal": {
+                  "Value": "4L"
+                }
+              }
+            },
+            "maxRadius": {
+              "expr": {
+                "Literal": {
+                  "Value": "14L"
+                }
+              }
+            },
+            "bubbleStrokeWidth": {
+              "expr": {
+                "Literal": {
+                  "Value": "1L"
+                }
+              }
+            },
+            "autoStrokeColor": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "layerPosition": {
+              "expr": {
+                "Literal": {
+                  "Value": "''"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "heatMapLayer": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Sales by Country'"
+                }
+              }
+            },
+            "fontFamily": {
+              "expr": {
+                "Literal": {
+                  "Value": "'''Arial Black'''"
+                }
+              }
+            },
+            "bold": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 7,
+                      "Percent": -0.25
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "subTitle": [
+        {
+          "properties": {
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "''"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "0e39a13ccc71e2508080",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Customer"
+              }
+            },
+            "Property": "CompanyName"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "44a7a8882205613d4320",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Order_Details"
+              }
+            },
+            "Property": "Total Sales"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "27aecd8fc1ba87c08134",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Orders"
+              }
+            },
+            "Property": "Total Orders"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "ec1364ce0e0759b7753d",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Customer"
+              }
+            },
+            "Property": "Customers With Orders"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
+  }
+}

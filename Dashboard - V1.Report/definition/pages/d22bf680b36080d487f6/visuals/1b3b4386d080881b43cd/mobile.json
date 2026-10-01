@@ -1,0 +1,81 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainerMobileState/2.7.0/schema.json",
+  "position": {
+    "x": 0,
+    "y": 871,
+    "z": 11000,
+    "height": 464,
+    "width": 324,
+    "tabOrder": 11000
+  },
+  "objects": {
+    "labels": [
+      {
+        "properties": {
+          "fontSize": {
+            "expr": {
+              "Literal": {
+                "Value": "8D"
+              }
+            }
+          },
+          "labelStyle": {
+            "expr": {
+              "Literal": {
+                "Value": "'Percent of total'"
+              }
+            }
+          },
+          "position": {
+            "expr": {
+              "Literal": {
+                "Value": "'outside'"
+              }
+            }
+          },
+          "bold": {
+            "expr": {
+              "Literal": {
+                "Value": "true"
+              }
+            }
+          }
+        }
+      }
+    ],
+    "legend": [
+      {
+        "properties": {
+          "fontSize": {
+            "expr": {
+              "Literal": {
+                "Value": "9D"
+              }
+            }
+          },
+          "position": {
+            "expr": {
+              "Literal": {
+                "Value": "'LeftCenter'"
+              }
+            }
+          },
+          "bold": {
+            "expr": {
+              "Literal": {
+                "Value": "true"
+              }
+            }
+          },
+          "fontFamily": {
+            "expr": {
+              "Literal": {
+                "Value": "'wf_standard-font_light, helvetica, arial, sans-serif'"
+              }
+            }
+          }
+        }
+      }
+    ]
+  }
+}

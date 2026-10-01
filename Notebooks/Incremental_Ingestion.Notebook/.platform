@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Notebook",
+    "displayName": "Incremental_Ingestion"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "39c0683c-b2c8-b628-43f5-d556024804fc"
+  }
+}

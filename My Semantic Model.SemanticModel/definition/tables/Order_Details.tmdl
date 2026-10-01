@@ -1,0 +1,352 @@
+/// Order_Details is the detailed sales fact table.
+/// 
+/// The grain is one row per product line within one customer order. An order containing five different products normally creates five rows in this table.
+/// 
+/// This table contains the transactional selling price, quantity, discount, product key, customer key, order ID, and order date key.
+/// 
+/// Use this table for:
+/// 
+/// - Total Sales
+/// - Gross Sales
+/// - Total Discount Amount
+/// - Discount Rate
+/// - Total Quantity
+/// - Total Order Lines
+/// - Products Sold
+/// - Product performance
+/// - Category performance
+/// - Supplier performance
+/// - Customer revenue
+/// - Sales trends
+/// 
+/// Do not use this table to count unique orders by counting rows. Use DISTINCTCOUNT of OrderID or the Total Orders measure from Orders.
+table Order_Details
+	lineageTag: 8d471843-4ff1-4fb6-aae8-730f97ffac44
+	sourceLineageTag: [dbo].[Fact_Order_Details]
+
+	/// Total Sales is revenue after applying order-line discounts. It is calculated as UnitPrice × Quantity × (1 − Discount) and summed across Order_Details. Use this as the primary revenue measure unless the user specifically asks for Gross Sales.
+	measure 'Total Sales' =
+			
+			SUMX(
+			    'Order_Details',
+			    'Order_Details'[UnitPrice]
+			        * 'Order_Details'[Quantity]
+			        * (1 - 'Order_Details'[Discount])
+			)
+		formatString: "£"#,0.###############;-"£"#,0.###############;"£"#,0.###############
+		lineageTag: 040b6925-361b-4ed2-8175-be4e3cc1c3e3
+
+		changedProperty = Name
+
+		changedProperty = FormatString
+
+		changedProperty = Description
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-GB"}
+
+	/// Gross Sales is revenue before discounts. It is calculated at order-line grain as UnitPrice × Quantity and then summed. Use Gross Sales when the user asks for revenue before discounts or wants to compare gross revenue with discount impact.
+	measure 'Gross Sales' =
+			
+			SUMX(
+			    'Order_Details',
+			    'Order_Details'[UnitPrice]
+			        * 'Order_Details'[Quantity]
+			)
+		formatString: "£"#,0.###############;-"£"#,0.###############;"£"#,0.###############
+		lineageTag: 0028f529-165a-4703-a13a-2c36f832657e
+
+		changedProperty = Name
+
+		changedProperty = FormatString
+
+		changedProperty = Description
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-GB"}
+
+	/// Total Discount Amount is the monetary value of discounts applied to sold products. It is calculated as UnitPrice × Quantity × Discount at order-line grain and summed across the current filter context.
+	measure 'Total Discount Amount' =
+			
+			SUMX(
+			    Order_Details,
+			    Order_Details[UnitPrice]
+			        * Order_Details[Quantity]
+			        * Order_Details[Discount]
+			)
+		formatString: "£"#,0.###############;-"£"#,0.###############;"£"#,0.###############
+		lineageTag: ff32f18d-7cb7-411f-a9e6-d51ca463c416
+
+		changedProperty = Name
+
+		changedProperty = FormatString
+
+		changedProperty = Description
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-GB"}
+
+	/// Total Quantity is the total number of product units sold. It is calculated by summing Quantity from Order_Details. It represents units sold, not the number of distinct products and not the number of orders.
+	measure 'Total Quantity' =
+			
+			SUM(
+			    'Order_Details'[Quantity]
+			)
+		formatString: 0
+		lineageTag: 6226c82f-a371-4163-9625-b3c8703431f4
+
+		changedProperty = Name
+
+		changedProperty = Description
+
+	/// Total Order Lines is the number of product-level sales lines. It represents the volume of order-detail records in the current filter context. It is not the number of unique customer orders.
+	measure 'Total Order Lines' =
+			
+			SUM(
+			    'Order_Details'[LineCount]
+			)
+		formatString: 0
+		lineageTag: d6da0459-9eab-4147-9a40-3e962f7f2112
+
+		changedProperty = Name
+
+		changedProperty = Description
+
+	/// Sales YTD is cumulative Total Sales from the beginning of the selected calendar year through the current date context. It must use Date[Date] for time intelligence.
+	measure 'Sales YTD' =
+			
+			TOTALYTD(
+			    [Total Sales],
+			    'Date'[Date]
+			)
+		formatString: "£"#,0.###############;-"£"#,0.###############;"£"#,0.###############
+		lineageTag: f57ad379-17ff-4c36-96f5-7579530a64f1
+
+		changedProperty = Name
+
+		changedProperty = Description
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-GB"}
+
+	/// Discount Rate is the proportion of Gross Sales represented by the monetary discount. It is calculated as Total Discount Amount divided by Gross Sales. It should be interpreted as an overall weighted discount rate for the current filter context.
+	measure 'Discount Rate' =
+			
+			DIVIDE(
+			    [Total Discount Amount],
+			    [Gross Sales],
+			    0
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 14d7c4b2-1454-4cfc-95b4-9f3bd44f7cb5
+
+		changedProperty = Name
+
+		changedProperty = FormatString
+
+		changedProperty = Description
+
+	/// Products Sold is the number of distinct products that appear in the current sales context. It represents product variety sold, not the number of physical units sold.
+	measure 'Products Sold' =
+			
+			DISTINCTCOUNT(
+			    'Order_Details'[ProductKey]
+			)
+		formatString: 0
+		lineageTag: b57cab1b-cdcb-46c0-9c11-f7301c75a999
+
+		changedProperty = Name
+
+		changedProperty = Description
+
+	/// Average Quantity per Order Line is the average number of product units represented by each sales line. It is calculated as Total Quantity divided by Total Order Lines.
+	measure 'Average Quantity per Order Line' =
+			
+			DIVIDE(
+			    [Total Quantity],
+			    [Total Order Lines]
+			)
+		formatString: 0.00
+		lineageTag: 81cfc43e-0a02-495b-85d8-b76e493fc644
+
+		changedProperty = Name
+
+		changedProperty = FormatString
+
+		changedProperty = Description
+
+	/// Average Selling Price is the weighted average revenue per unit before discounts. It is calculated as Gross Sales divided by Total Quantity. It is different from a simple average of order-line UnitPrice.
+	measure 'Average Selling Price' =
+			
+			DIVIDE(
+			    [Gross Sales],
+			    [Total Quantity],
+			    0
+			)
+		lineageTag: b5723ec6-9aca-452a-805c-965d419b07f4
+
+		changedProperty = Name
+
+		changedProperty = FormatString
+
+		changedProperty = Description
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	/// Sales by Employee calculates revenue associated with the employee's orders. Employee filters Orders through EmployeeKey, but Order_Details is a separate fact table without EmployeeKey. This measure transfers the currently filtered OrderID values from Orders to Order_Details and then evaluates Total Sales. Use this measure whenever sales are analyzed by employee.
+	measure 'Sales by Employee' =
+			
+			CALCULATE(
+			    [Total Sales],
+			    TREATAS(
+			        VALUES(Orders[OrderID]),
+			        Order_Details[OrderID]
+			    )
+			)
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: c6f2494e-e555-4e9b-871c-1d3b2565128c
+
+		changedProperty = Name
+
+		changedProperty = Description
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	/// Surrogate key uniquely identifying an individual order-detail record. Each row represents one product line within an order.
+	column OrderDetailKey
+		dataType: int64
+		formatString: 0
+		sourceProviderType: bigint
+		lineageTag: f3be949c-2847-4ae1-94f0-74d0506f7aec
+		sourceLineageTag: OrderDetailKey
+		summarizeBy: count
+		sourceColumn: OrderDetailKey
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Business identifier of the customer order to which this order-detail line belongs. Multiple Order_Details rows can have the same OrderID because one order can contain multiple products.
+	column OrderID
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 9fd44ef0-f246-4207-a1aa-578e1df8eada
+		sourceLineageTag: OrderID
+		summarizeBy: count
+		sourceColumn: OrderID
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Surrogate key identifying the product associated with the order-detail line. It connects the sales line to Product.
+	column ProductKey
+		dataType: int64
+		formatString: 0
+		sourceProviderType: bigint
+		lineageTag: 6ce1c0d2-a70b-46bb-af06-6d14cbac7844
+		sourceLineageTag: ProductKey
+		summarizeBy: none
+		sourceColumn: ProductKey
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Surrogate key identifying the customer associated with the order-detail line. It connects the sales line to Customer.
+	column CustomerKey
+		dataType: int64
+		formatString: 0
+		sourceProviderType: bigint
+		lineageTag: f6a29b7d-b506-444a-8830-951d0069aa56
+		sourceLineageTag: CustomerKey
+		summarizeBy: none
+		sourceColumn: CustomerKey
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Surrogate date key identifying the order date associated with the sales line. It connects the sales line to Date.
+	column OrderDateKey
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 13b3960f-3c98-4317-bbaa-bbfed6214593
+		sourceLineageTag: OrderDateKey
+		summarizeBy: none
+		sourceColumn: OrderDateKey
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Actual unit selling price recorded on the order line. Use this transactional price for sales calculations rather than Product[UnitPrice].
+	column UnitPrice
+		dataType: double
+		sourceProviderType: decimal(18, 2)
+		lineageTag: 7cff002a-0933-40c9-984d-5e5c37ce279e
+		sourceLineageTag: UnitPrice
+		summarizeBy: sum
+		sourceColumn: UnitPrice
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	/// Number of units of the product sold on the order line. SUM of Quantity represents total units sold.
+	column Quantity
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 0eb8c415-4a6f-4417-9b06-622280299b9b
+		sourceLineageTag: Quantity
+		summarizeBy: sum
+		sourceColumn: Quantity
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Discount rate applied to the order line. It is used when calculating the monetary discount and revenue after discount.
+	column Discount
+		dataType: decimal
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		sourceProviderType: decimal(18, 4)
+		lineageTag: 6e6f6e04-459d-4a62-8f19-8a6553f20e54
+		sourceLineageTag: Discount
+		summarizeBy: sum
+		sourceColumn: Discount
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	/// Represents one sales line at the fact-table grain. Summing LineCount provides the total number of order-detail lines.
+	column LineCount
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 034bc5dd-c574-4d8f-8b76-c55a501063a5
+		sourceLineageTag: LineCount
+		summarizeBy: sum
+		sourceColumn: LineCount
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Order_Details = entity
+		mode: directLake
+		source
+			entityName: Fact_Order_Details
+			schemaName: dbo
+			expressionSource: DatabaseQuery
+
+	changedProperty = Description
+
+	changedProperty = Name
+
+	annotation PBI_ResultType = Table
+

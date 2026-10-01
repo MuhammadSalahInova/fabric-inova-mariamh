@@ -1,0 +1,225 @@
+/// Product contains descriptive information about products sold by the company.
+/// 
+/// Each product belongs to a category and is associated with a supplier. A product can appear in many rows of Order_Details because it may be included in many order lines.
+/// 
+/// Use Product for product names, product categories, suppliers, packaging information, reference prices, and discontinued status.
+/// 
+/// The filtering path for product analysis is:
+/// 
+/// Product → Order_Details
+/// 
+/// Category and supplier analysis reaches sales through Product:
+/// 
+/// Category → Product → Order_Details
+/// Supplier → Product → Order_Details
+table Product
+	lineageTag: 9838ae5d-c0f8-4c39-8675-e8e16f52dc7b
+	sourceLineageTag: [dbo].[Dim_Product]
+
+	measure 'Selected Product Title' =
+			
+			"Product Details - "
+			    & COALESCE(
+			        SELECTEDVALUE(Product[ProductName]),
+			        "No Product Selected"
+			    )
+		lineageTag: 5c31bcf1-4297-4099-b280-33649b14289a
+
+		changedProperty = Name
+
+	/// The surrogate key identifying the product in the dimensional model. It connects Product to Order_Details. Use it for relationships and distinct-product calculations, not as a user-facing label.
+	column ProductKey
+		dataType: int64
+		formatString: 0
+		sourceProviderType: bigint
+		lineageTag: a8534c02-3293-4ff4-8077-53b21fb3c5c9
+		sourceLineageTag: ProductKey
+		summarizeBy: none
+		sourceColumn: ProductKey
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	/// The original business identifier of the product from the source system. It identifies the product in the operational source data.
+	column ProductID
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 5c5b4b8a-a1da-4e65-8b33-2e9e21f99d14
+		sourceLineageTag: ProductID
+		summarizeBy: count
+		sourceColumn: ProductID
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProductName
+		dataType: string
+		sourceProviderType: varchar(255)
+		lineageTag: e17fd162-a611-479d-b397-79713423530d
+		sourceLineageTag: ProductName
+		summarizeBy: none
+		sourceColumn: ProductName
+
+		annotation SummarizationSetBy = Automatic
+
+	/// The original supplier identifier associated with the product.
+	column SupplierID
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 84b5c62b-7bd9-438f-b66a-3a1d9ffa1b2d
+		sourceLineageTag: SupplierID
+		summarizeBy: none
+		sourceColumn: SupplierID
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	/// The original category identifier associated with the product. It represents the product's source-system category reference.
+	column CategoryID
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 5fbc62a4-38eb-45eb-86e0-618487fe3c78
+		sourceLineageTag: CategoryID
+		summarizeBy: none
+		sourceColumn: CategoryID
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Describes the packaging or quantity contained in one product unit. It is descriptive product information and must not be interpreted as the number of units sold.
+	column QuantityPerUnit
+		dataType: string
+		sourceProviderType: varchar(255)
+		lineageTag: 10977684-2327-4006-9f23-fec90229431b
+		sourceLineageTag: QuantityPerUnit
+		summarizeBy: none
+		sourceColumn: QuantityPerUnit
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	/// The reference or master-data unit price stored in the product dimension. For actual transaction revenue calculations, use Order_Details[UnitPrice], because that is the price recorded on the order line.
+	column UnitPrice
+		dataType: double
+		sourceProviderType: decimal(18, 2)
+		lineageTag: aad4c1b5-c0a6-4644-8577-c2982df246a2
+		sourceLineageTag: UnitPrice
+		summarizeBy: sum
+		sourceColumn: UnitPrice
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column UnitsInStock
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: ed933756-ce2d-4b26-b77d-aea7039e9c9c
+		sourceLineageTag: UnitsInStock
+		summarizeBy: sum
+		sourceColumn: UnitsInStock
+
+		annotation SummarizationSetBy = Automatic
+
+	column UnitsOnOrder
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: b4215a8c-18d4-4cc4-8cd8-92a7a791d44e
+		sourceLineageTag: UnitsOnOrder
+		summarizeBy: sum
+		sourceColumn: UnitsOnOrder
+
+		annotation SummarizationSetBy = Automatic
+
+	column ReorderLevel
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 39aa5024-35af-4f78-acea-2eccc32bdc76
+		sourceLineageTag: ReorderLevel
+		summarizeBy: sum
+		sourceColumn: ReorderLevel
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Indicates whether the product has been discontinued. Use it to filter or compare active and discontinued products. It does not indicate whether the product has sold.
+	column Discontinued
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		sourceProviderType: bit
+		lineageTag: 9ad246d1-94a0-482a-bf3f-738e76e35cc6
+		sourceLineageTag: Discontinued
+		summarizeBy: none
+		sourceColumn: Discontinued
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	/// The date from which this product dimension record became valid.
+	column StartDate
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: date
+		lineageTag: cd7b185a-c62e-46a5-a3d4-afaae222be4c
+		sourceLineageTag: StartDate
+		summarizeBy: none
+		sourceColumn: StartDate
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	/// The date until which this product dimension record is valid. It is used for dimension history management.
+	column EndDate
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: date
+		lineageTag: 4507ab1d-c02c-49f8-a544-617f5eeb7880
+		sourceLineageTag: EndDate
+		summarizeBy: none
+		sourceColumn: EndDate
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Indicates whether this is the current version of the product dimension record.
+	column IsCurrent
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		sourceProviderType: bit
+		lineageTag: 7250f99b-36db-4699-a602-7b935d05d460
+		sourceLineageTag: IsCurrent
+		summarizeBy: none
+		sourceColumn: IsCurrent
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Product = entity
+		mode: directLake
+		source
+			entityName: Dim_Product
+			schemaName: dbo
+			expressionSource: DatabaseQuery
+
+	changedProperty = Name
+
+	changedProperty = Description
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,12 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "My Semantic Model",
+    "description": "Business sales and operations semantic model covering products, categories, suppliers, customers, employees, dates, orders and shipping. Orders is at order grain, while Order_Details is at product-line grain. Use predefined measures for sales, orders, customers, shipping and employee analysis, with Date providing Order, Required and Shipped date roles."
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "477aeb64-2947-8efc-4500-95f344c60697"
+  }
+}

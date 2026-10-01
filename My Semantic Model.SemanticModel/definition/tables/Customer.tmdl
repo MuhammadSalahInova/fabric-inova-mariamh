@@ -1,0 +1,294 @@
+/// Customer contains descriptive information about customers.
+/// 
+/// A customer can place many orders and can appear in many order-detail lines. Customer is connected to both Orders and Order_Details through CustomerKey.
+/// 
+/// Use this table for customer analysis, including customer sales, order frequency, customer geography, customer ranking, country analysis, and customer drillthrough.
+/// 
+/// Customer-level revenue is calculated from Order_Details. Customer-level order counts are calculated from Orders.
+table Customer
+	lineageTag: da75ea3a-ce55-4f84-9ff0-72f3ac36a95d
+	sourceLineageTag: [dbo].[Dim_Customer]
+
+	/// Total number of customers in the Customer dimension. This represents the customer master population and is not limited to customers who placed an order.
+	measure 'Total Customers' =
+			
+			DISTINCTCOUNT(
+			    'Customer'[CustomerID]
+			)
+		formatString: 0
+		lineageTag: 2bb7463e-7337-47ba-a09c-57243a0c39b8
+
+		changedProperty = Name
+
+		changedProperty = Description
+
+	/// Customers With Orders is the number of distinct customers who placed at least one order in the current filter context. It is different from the total number of customers in Customer.
+	measure 'Customers With Orders' =
+			
+			DISTINCTCOUNT(
+			    'Orders'[CustomerKey]
+			)
+		formatString: 0
+		lineageTag: 13eeb2ae-6c1e-4182-b2ec-9973563b8a90
+
+		changedProperty = Name
+
+		changedProperty = Description
+
+	/// Average Orders per Customer is the average number of orders placed by each customer who placed at least one order. It is calculated as Total Orders divided by Customers With Orders.
+	measure 'Average Orders per Customer' =
+			
+			DIVIDE(
+			    [Total Orders],
+			    [Customers With Orders],
+			    0
+			)
+		formatString: 0.00
+		lineageTag: 2d9715e1-5929-4761-914e-7e33033f000e
+
+		changedProperty = Name
+
+		changedProperty = FormatString
+
+		changedProperty = Description
+
+	/// Sales per Customer is the average revenue generated per customer who placed at least one order. It is calculated as Total Sales divided by Customers With Orders.
+	measure 'Sales per Customer' =
+			
+			DIVIDE(
+			    [Total Sales],
+			    [Customers With Orders],
+			    0
+			)
+		formatString: "£"#,0.###############;-"£"#,0.###############;"£"#,0.###############
+		lineageTag: 66b848df-a2fe-4c88-9cfd-c62931bb6376
+
+		changedProperty = Name
+
+		changedProperty = Description
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-GB"}
+
+	measure 'Selected Customer Title' =
+			
+			"Customer Details - "
+			    & COALESCE(
+			        SELECTEDVALUE(Customer[CompanyName]),
+			        "No Customer Selected"
+			    )
+		lineageTag: 719d0969-ffc7-4e49-b0ef-ba2c309e43ea
+
+		changedProperty = Name
+
+	/// The surrogate key identifying the customer in the dimensional model. It connects Customer to Orders and Order_Details.
+	column CustomerKey
+		dataType: int64
+		formatString: 0
+		sourceProviderType: bigint
+		lineageTag: a139f848-b5eb-45af-a13d-1c4c1181f329
+		sourceLineageTag: CustomerKey
+		summarizeBy: none
+		sourceColumn: CustomerKey
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	/// The original business identifier of the customer from the source system.
+	column CustomerID
+		dataType: string
+		sourceProviderType: varchar(50)
+		lineageTag: 908a8ea6-f032-4cc4-b895-60b8ea821d9d
+		sourceLineageTag: CustomerID
+		summarizeBy: none
+		sourceColumn: CustomerID
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	/// The customer company or business name. Use it as the main customer label in reports and customer rankings.
+	column CompanyName
+		dataType: string
+		sourceProviderType: varchar(255)
+		lineageTag: 0ecbe77e-4aa8-467a-b618-2a2738b61c82
+		sourceLineageTag: CompanyName
+		summarizeBy: none
+		sourceColumn: CompanyName
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	/// The name of the customer's contact person.
+	column ContactName
+		dataType: string
+		sourceProviderType: varchar(255)
+		lineageTag: 8265bff7-ba1c-483f-b1e0-0489527a62b9
+		sourceLineageTag: ContactName
+		summarizeBy: none
+		sourceColumn: ContactName
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	/// The job title of the customer's contact person.
+	column ContactTitle
+		dataType: string
+		sourceProviderType: varchar(255)
+		lineageTag: 997612e9-04f4-470f-9317-4d3f7bcf73bc
+		sourceLineageTag: ContactTitle
+		summarizeBy: none
+		sourceColumn: ContactTitle
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	/// The customer's address.
+	column Address
+		dataType: string
+		sourceProviderType: varchar(500)
+		lineageTag: abe30dbc-5419-46bd-853e-5d0e6f4b9701
+		sourceLineageTag: Address
+		summarizeBy: none
+		sourceColumn: Address
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	/// The customer's city.
+	column City
+		dataType: string
+		sourceProviderType: varchar(100)
+		lineageTag: 157b706d-74ec-4359-9cf0-599692025c76
+		sourceLineageTag: City
+		summarizeBy: none
+		sourceColumn: City
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	/// The customer's region, state, or administrative area.
+	column Region
+		dataType: string
+		sourceProviderType: varchar(100)
+		lineageTag: b0bb673b-7e9a-4ad3-9dca-ab2b26d5cfa1
+		sourceLineageTag: Region
+		summarizeBy: none
+		sourceColumn: Region
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	/// The customer's postal code.
+	column PostalCode
+		dataType: string
+		sourceProviderType: varchar(50)
+		lineageTag: c9b5a8eb-9825-449d-8869-8a1f104693eb
+		sourceLineageTag: PostalCode
+		summarizeBy: none
+		sourceColumn: PostalCode
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	/// The customer's country. Use it for geographic grouping, country rankings, and map analysis. Country values should be standardized for reliable map recognition.
+	column Country
+		dataType: string
+		sourceProviderType: varchar(100)
+		lineageTag: 48fccaa7-22ac-4b51-b5a8-291736117452
+		sourceLineageTag: Country
+		summarizeBy: none
+		sourceColumn: Country
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	/// The customer's telephone contact information.
+	column Phone
+		dataType: string
+		sourceProviderType: varchar(100)
+		lineageTag: 91029dc3-3a35-4bce-b17c-19fe398f3391
+		sourceLineageTag: Phone
+		summarizeBy: none
+		sourceColumn: Phone
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	/// The customer's fax contact information, when available.
+	column Fax
+		dataType: string
+		sourceProviderType: varchar(100)
+		lineageTag: 1588cf3a-c74c-4eb2-ae4a-2c08dfac725f
+		sourceLineageTag: Fax
+		summarizeBy: none
+		sourceColumn: Fax
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	/// The date from which this customer dimension record became valid.
+	column StartDate
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: date
+		lineageTag: 095010ae-39d1-44e0-bdab-ff8935b72d75
+		sourceLineageTag: StartDate
+		summarizeBy: none
+		sourceColumn: StartDate
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	/// The date until which this customer dimension record is valid.
+	column EndDate
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: date
+		lineageTag: ed303f5a-c230-4316-b98d-0ecaf98dbb7c
+		sourceLineageTag: EndDate
+		summarizeBy: none
+		sourceColumn: EndDate
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Indicates whether this is the current version of the customer dimension record.
+	column IsCurrent
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		sourceProviderType: bit
+		lineageTag: d58c1065-2f25-45b3-856b-6b27e6c2c7ac
+		sourceLineageTag: IsCurrent
+		summarizeBy: none
+		sourceColumn: IsCurrent
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Customer = entity
+		mode: directLake
+		source
+			entityName: Dim_Customer
+			schemaName: dbo
+			expressionSource: DatabaseQuery
+
+	changedProperty = Description
+
+	changedProperty = Name
+
+	annotation PBI_ResultType = Table
+

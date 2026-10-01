@@ -1,0 +1,201 @@
+/// Date is the calendar dimension used for time-based analysis.
+/// 
+/// It contains one row for each calendar date and supports analysis by year, quarter, month, and day.
+/// 
+/// The preferred date hierarchy is:
+/// 
+/// Year → Quarter → MonthName → Date
+/// 
+/// Date is connected to the fact tables through date keys. Order_Details normally uses OrderDateKey. Orders contains several date roles:
+/// 
+/// - OrderDateKey: date the order was placed
+/// - RequiredDateKey: date the order was required
+/// - ShippedDateKey: date the order was actually shipped
+/// 
+/// Use the appropriate date relationship depending on the question. Normal sales and order trends use Order Date. Required-date analysis uses Required Date. Shipment activity uses Shipped Date.
+table Date
+	lineageTag: 6808bc34-6770-4490-a1ab-917c638dadd7
+	sourceLineageTag: [dbo].[Dim_Date]
+
+	/// Integer surrogate key representing a calendar date. It is used to connectDate to date-key columns in the fact tables.
+	column DateKey
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: f8602a58-0b4d-492f-98a6-a15f562d489b
+		sourceLineageTag: DateKey
+		summarizeBy: none
+		sourceColumn: DateKey
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Actual calendar date. This is the primary date field for time intelligence and should be used with YTD and other date-based measures.
+	column Date
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: date
+		lineageTag: 37c3f2db-6645-4f77-b6dc-2cefeae8f8d1
+		sourceLineageTag: Date
+		summarizeBy: none
+		sourceColumn: Date
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Calendar year associated with the date. Use it for annual filtering and year-level analysis.
+	column Year
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: d837785c-435f-4895-8461-637728f94d06
+		sourceLineageTag: Year
+		summarizeBy: sum
+		sourceColumn: Year
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Calendar quarter associated with the date, such as Q1, Q2, Q3, or Q4.
+	column Quarter
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: def05379-3bd3-4001-a50f-c6fc6b4ee544
+		sourceLineageTag: Quarter
+		summarizeBy: sum
+		sourceColumn: Quarter
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Month identifier or month grouping used for calendar analysis.
+	column Month
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: fb070ecc-a17a-4186-8d0c-332d998dcfeb
+		sourceLineageTag: Month
+		summarizeBy: sum
+		sourceColumn: Month
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Name of the month. Use MonthNumber to sort MonthName chronologically rather than alphabetically.
+	column MonthName
+		dataType: string
+		sourceProviderType: varchar(20)
+		lineageTag: 6e4e9f6e-b201-4e2b-af3c-b48940177393
+		sourceLineageTag: MonthName
+		summarizeBy: none
+		sourceColumn: MonthName
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Numeric month number used to sort MonthName in calendar order.
+	column MonthNumber
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 474405f3-684f-4025-8e80-141910fc0d0f
+		sourceLineageTag: MonthNumber
+		summarizeBy: sum
+		sourceColumn: MonthNumber
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	column WeekNumber
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: a383427b-9227-486e-9957-f54ca526a5d4
+		sourceLineageTag: WeekNumber
+		summarizeBy: sum
+		sourceColumn: WeekNumber
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Numeric day of the month.
+	column Day
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 07359ba1-1fd5-4567-ba22-eccaf4fa6f37
+		sourceLineageTag: Day
+		summarizeBy: sum
+		sourceColumn: Day
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Name of the day of the week, such as Monday or Tuesday.
+	column DayName
+		dataType: string
+		sourceProviderType: varchar(20)
+		lineageTag: 06c8e352-fbd7-44ed-88d3-8bbf0f87a86b
+		sourceLineageTag: DayName
+		summarizeBy: none
+		sourceColumn: DayName
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Indicates whether the calendar date falls on a weekend.
+	column IsWeekend
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		sourceProviderType: bit
+		lineageTag: c1780f51-dfd3-4969-abf4-fe3fc9c8a865
+		sourceLineageTag: IsWeekend
+		summarizeBy: none
+		sourceColumn: IsWeekend
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	column YearMonth
+		dataType: string
+		sourceProviderType: varchar(7)
+		lineageTag: 66f68347-42af-40e2-89f3-235e5a7c0fea
+		sourceLineageTag: YearMonth
+		summarizeBy: none
+		sourceColumn: YearMonth
+
+		annotation SummarizationSetBy = Automatic
+
+	column YearQuarter
+		dataType: string
+		sourceProviderType: varchar(7)
+		lineageTag: 80f705c0-cf3e-4a65-b0cb-4c9d279c05dc
+		sourceLineageTag: YearQuarter
+		summarizeBy: none
+		sourceColumn: YearQuarter
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Date = entity
+		mode: directLake
+		source
+			entityName: Dim_Date
+			schemaName: dbo
+			expressionSource: DatabaseQuery
+
+	changedProperty = Description
+
+	changedProperty = Name
+
+	annotation PBI_ResultType = Table
+

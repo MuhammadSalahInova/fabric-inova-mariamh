@@ -1,0 +1,39 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
+  "name": "64e62ec027cb20dadb81",
+  "position": {
+    "x": 60.241351568785205,
+    "y": 0,
+    "z": 8000,
+    "height": 98.857602574416745,
+    "width": 596.234915526951,
+    "tabOrder": 8000
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "Shipping & Operations",
+                    "textStyle": {
+                      "fontWeight": "bold",
+                      "fontSize": "36pt",
+                      "color": "#d64550"
+                    }
+                  }
+                ],
+                "horizontalTextAlignment": "center"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

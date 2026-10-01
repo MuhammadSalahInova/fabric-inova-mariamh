@@ -1,0 +1,1416 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/dataAgent/definition/dataSource/1.0.0/schema.json",
+  "artifactId": "477aeb64-2947-8efc-4500-95f344c60697",
+  "workspaceId": "00000000-0000-0000-0000-000000000000",
+  "dataSourceInstructions": null,
+  "displayName": "My Semantic Model",
+  "type": "semantic_model",
+  "userDescription": null,
+  "metadata": null,
+  "elements": [
+    {
+      "id": "6808bc34-6770-4490-a1ab-917c638dadd7",
+      "is_selected": true,
+      "display_name": "Date",
+      "type": "semantic_model.table",
+      "description": "Date is the calendar dimension used for time-based analysis.\n\nIt contains one row for each calendar date and supports analysis by year, quarter, month, and day.\n\nThe preferred date hierarchy is:\n\nYear → Quarter → MonthName → Date\n\nDate is connected to the fact tables through date keys. Order_Details normally uses OrderDateKey. Orders contains several date roles:\n\n- OrderDateKey: date the order was placed\n- RequiredDateKey: date the order was required\n- ShippedDateKey: date the order was actually shipped\n\nUse the appropriate date relationship depending on the question. Normal sales and order trends use Order Date. Required-date analysis uses Required Date. Shipment activity uses Shipped Date.",
+      "children": [
+        {
+          "id": "f8602a58-0b4d-492f-98a6-a15f562d489b",
+          "is_selected": true,
+          "display_name": "DateKey",
+          "type": "semantic_model.column",
+          "data_type": "Int64",
+          "description": "Integer surrogate key representing a calendar date. It is used to connectDate to date-key columns in the fact tables.",
+          "children": []
+        },
+        {
+          "id": "37c3f2db-6645-4f77-b6dc-2cefeae8f8d1",
+          "is_selected": true,
+          "display_name": "Date",
+          "type": "semantic_model.column",
+          "data_type": "DateTime",
+          "description": "Actual calendar date. This is the primary date field for time intelligence and should be used with YTD and other date-based measures.",
+          "children": []
+        },
+        {
+          "id": "d837785c-435f-4895-8461-637728f94d06",
+          "is_selected": true,
+          "display_name": "Year",
+          "type": "semantic_model.column",
+          "data_type": "Int64",
+          "description": "Calendar year associated with the date. Use it for annual filtering and year-level analysis.",
+          "children": []
+        },
+        {
+          "id": "def05379-3bd3-4001-a50f-c6fc6b4ee544",
+          "is_selected": true,
+          "display_name": "Quarter",
+          "type": "semantic_model.column",
+          "data_type": "Int64",
+          "description": "Calendar quarter associated with the date, such as Q1, Q2, Q3, or Q4.",
+          "children": []
+        },
+        {
+          "id": "fb070ecc-a17a-4186-8d0c-332d998dcfeb",
+          "is_selected": true,
+          "display_name": "Month",
+          "type": "semantic_model.column",
+          "data_type": "Int64",
+          "description": "Month identifier or month grouping used for calendar analysis.",
+          "children": []
+        },
+        {
+          "id": "6e4e9f6e-b201-4e2b-af3c-b48940177393",
+          "is_selected": true,
+          "display_name": "MonthName",
+          "type": "semantic_model.column",
+          "data_type": "String",
+          "description": "Name of the month. Use MonthNumber to sort MonthName chronologically rather than alphabetically.",
+          "children": []
+        },
+        {
+          "id": "474405f3-684f-4025-8e80-141910fc0d0f",
+          "is_selected": true,
+          "display_name": "MonthNumber",
+          "type": "semantic_model.column",
+          "data_type": "Int64",
+          "description": "Numeric month number used to sort MonthName in calendar order.",
+          "children": []
+        },
+        {
+          "id": "a383427b-9227-486e-9957-f54ca526a5d4",
+          "is_selected": true,
+          "display_name": "WeekNumber",
+          "type": "semantic_model.column",
+          "data_type": "Int64",
+          "description": null,
+          "children": []
+        },
+        {
+          "id": "07359ba1-1fd5-4567-ba22-eccaf4fa6f37",
+          "is_selected": true,
+          "display_name": "Day",
+          "type": "semantic_model.column",
+          "data_type": "Int64",
+          "description": "Numeric day of the month.",
+          "children": []
+        },
+        {
+          "id": "06c8e352-fbd7-44ed-88d3-8bbf0f87a86b",
+          "is_selected": true,
+          "display_name": "DayName",
+          "type": "semantic_model.column",
+          "data_type": "String",
+          "description": "Name of the day of the week, such as Monday or Tuesday.",
+          "children": []
+        },
+        {
+          "id": "c1780f51-dfd3-4969-abf4-fe3fc9c8a865",
+          "is_selected": true,
+          "display_name": "IsWeekend",
+          "type": "semantic_model.column",
+          "data_type": "Boolean",
+          "description": "Indicates whether the calendar date falls on a weekend.",
+          "children": []
+        },
+        {
+          "id": "66f68347-42af-40e2-89f3-235e5a7c0fea",
+          "is_selected": true,
+          "display_name": "YearMonth",
+          "type": "semantic_model.column",
+          "data_type": "String",
+          "description": null,
+          "children": []
+        },
+        {
+          "id": "80f705c0-cf3e-4a65-b0cb-4c9d279c05dc",
+          "is_selected": true,
+          "display_name": "YearQuarter",
+          "type": "semantic_model.column",
+          "data_type": "String",
+          "description": null,
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "da75ea3a-ce55-4f84-9ff0-72f3ac36a95d",
+      "is_selected": true,
+      "display_name": "Customer",
+      "type": "semantic_model.table",
+      "description": "Customer contains descriptive information about customers.\n\nA customer can place many orders and can appear in many order-detail lines. Customer is connected to both Orders and Order_Details through CustomerKey.\n\nUse this table for customer analysis, including customer sales, order frequency, customer geography, customer ranking, country analysis, and customer drillthrough.\n\nCustomer-level revenue is calculated from Order_Details. Customer-level order counts are calculated from Orders.",
+      "children": [
+        {
+          "id": "a139f848-b5eb-45af-a13d-1c4c1181f329",
+          "is_selected": true,
+          "display_name": "CustomerKey",
+          "type": "semantic_model.column",
+          "data_type": "Int64",
+          "description": "The surrogate key identifying the customer in the dimensional model. It connects Customer to Orders and Order_Details.",
+          "children": []
+        },
+        {
+          "id": "908a8ea6-f032-4cc4-b895-60b8ea821d9d",
+          "is_selected": true,
+          "display_name": "CustomerID",
+          "type": "semantic_model.column",
+          "data_type": "String",
+          "description": "The original business identifier of the customer from the source system.",
+          "children": []
+        },
+        {
+          "id": "0ecbe77e-4aa8-467a-b618-2a2738b61c82",
+          "is_selected": true,
+          "display_name": "CompanyName",
+          "type": "semantic_model.column",
+          "data_type": "String",
+          "description": "The customer company or business name. Use it as the main customer label in reports and customer rankings.",
+          "children": []
+        },
+        {
+          "id": "8265bff7-ba1c-483f-b1e0-0489527a62b9",
+          "is_selected": true,
+          "display_name": "ContactName",
+          "type": "semantic_model.column",
+          "data_type": "String",
+          "description": "The name of the customer's contact person.",
+          "children": []
+        },
+        {
+          "id": "997612e9-04f4-470f-9317-4d3f7bcf73bc",
+          "is_selected": true,
+          "display_name": "ContactTitle",
+          "type": "semantic_model.column",
+          "data_type": "String",
+          "description": "The job title of the customer's contact person.",
+          "children": []
+        },
+        {
+          "id": "abe30dbc-5419-46bd-853e-5d0e6f4b9701",
+          "is_selected": true,
+          "display_name": "Address",
+          "type": "semantic_model.column",
+          "data_type": "String",
+          "description": "The customer's address.",
+          "children": []
+        },
+        {
+          "id": "157b706d-74ec-4359-9cf0-599692025c76",
+          "is_selected": true,
+          "display_name": "City",
+          "type": "semantic_model.column",
+          "data_type": "String",
+          "description": "The customer's city.",
+          "children": []
+        },
+        {
+          "id": "b0bb673b-7e9a-4ad3-9dca-ab2b26d5cfa1",
+          "is_selected": true,
+          "display_name": "Region",
+          "type": "semantic_model.column",
+          "data_type": "String",
+          "description": "The customer's region, state, or administrative area.",
+          "children": []
+        },
+        {
+          "id": "c9b5a8eb-9825-449d-8869-8a1f104693eb",
+          "is_selected": true,
+          "display_name": "PostalCode",
+          "type": "semantic_model.column",
+          "data_type": "String",
+          "description": "The customer's postal code.",
+          "children": []
+        },
+        {
+          "id": "48fccaa7-22ac-4b51-b5a8-291736117452",
+          "is_selected": true,
+          "display_name": "Country",
+          "type": "semantic_model.column",
+          "data_type": "String",
+          "description": "The customer's country. Use it for geographic grouping, country rankings, and map analysis. Country values should be standardized for reliable map recognition.",
+          "children": []
+        },
+        {
+          "id": "91029dc3-3a35-4bce-b17c-19fe398f3391",
+          "is_selected": true,
+          "display_name": "Phone",
+          "type": "semantic_model.column",
+          "data_type": "String",
+          "description": "The customer's telephone contact information.",
+          "children": []
+        },
+        {
+          "id": "1588cf3a-c74c-4eb2-ae4a-2c08dfac725f",
+          "is_selected": true,
+          "display_name": "Fax",
+          "type": "semantic_model.column",
+          "data_type": "String",
+          "description": "The customer's fax contact information, when available.",
+          "children": []
+        },
+        {
+          "id": "095010ae-39d1-44e0-bdab-ff8935b72d75",
+          "is_selected": true,
+          "display_name": "StartDate",
+          "type": "semantic_model.column",
+          "data_type": "DateTime",
+          "description": "The date from which this customer dimension record became valid.",
+          "children": []
+        },
+        {
+          "id": "ed303f5a-c230-4316-b98d-0ecaf98dbb7c",
+          "is_selected": true,
+          "display_name": "EndDate",
+          "type": "semantic_model.column",
+          "data_type": "DateTime",
+          "description": "The date until which this customer dimension record is valid.",
+          "children": []
+        },
+        {
+          "id": "d58c1065-2f25-45b3-856b-6b27e6c2c7ac",
+          "is_selected": true,
+          "display_name": "IsCurrent",
+          "type": "semantic_model.column",
+          "data_type": "Boolean",
+          "description": "Indicates whether this is the current version of the customer dimension record.",
+          "children": []
+        },
+        {
+          "id": "2bb7463e-7337-47ba-a09c-57243a0c39b8",
+          "is_selected": true,
+          "display_name": "Total Customers",
+          "type": "semantic_model.measure",
+          "data_type": "Int64",
+          "description": "Total number of customers in the Customer dimension. This represents the customer master population and is not limited to customers who placed an order.",
+          "children": []
+        },
+        {
+          "id": "13eeb2ae-6c1e-4182-b2ec-9973563b8a90",
+          "is_selected": true,
+          "display_name": "Customers With Orders",
+          "type": "semantic_model.measure",
+          "data_type": "Int64",
+          "description": "Customers With Orders is the number of distinct customers who placed at least one order in the current filter context. It is different from the total number of customers in Customer.",
+          "children": []
+        },
+        {
+          "id": "2d9715e1-5929-4761-914e-7e33033f000e",
+          "is_selected": true,
+          "display_name": "Average Orders per Customer",
+          "type": "semantic_model.measure",
+          "data_type": "Double",
+          "description": "Average Orders per Customer is the average number of orders placed by each customer who placed at least one order. It is calculated as Total Orders divided by Customers With Orders.",
+          "children": []
+        },
+        {
+          "id": "66b848df-a2fe-4c88-9cfd-c62931bb6376",
+          "is_selected": true,
+          "display_name": "Sales per Customer",
+          "type": "semantic_model.measure",
+          "data_type": "Decimal",
+          "description": "Sales per Customer is the average revenue generated per customer who placed at least one order. It is calculated as Total Sales divided by Customers With Orders.",
+          "children": []
+        },
+        {
+          "id": "719d0969-ffc7-4e49-b0ef-ba2c309e43ea",
+          "is_selected": true,
+          "display_name": "Selected Customer Title",
+          "type": "semantic_model.measure",
+          "data_type": "String",
+          "description": null,
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "b73a088f-151d-43af-a21a-7542137d3776",
+      "is_selected": true,
+      "display_name": "Employee",
+      "type": "semantic_model.table",
+      "description": "Employee contains descriptive information about employees associated with customer orders.\n\nAn employee can be associated with many orders. Employee filters Orders through EmployeeKey.\n\nEmployee workload is measured using Orders. Employee-associated sales are calculated by transferring the employee's filtered OrderID values from Orders to Order_Details through the dedicated Sales by Employee measure.\n\nDo not expect the ordinary Total Sales measure to respond directly to an employee filter because the two fact tables are not directly related.",
+      "children": [
+        {
+          "id": "ca23a702-b5fa-4584-8d4d-ae95d4c790c8",
+          "is_selected": true,
+          "display_name": "EmployeeKey",
+          "type": "semantic_model.column",
+          "data_type": "Int64",
+          "description": "The surrogate key identifying the employee in the dimensional model. It connects Employee to Orders.",
+          "children": []
+        },
+        {
+          "id": "1ab3ec71-da3a-4884-a0c1-1ca8019a4720",
+          "is_selected": true,
+          "display_name": "EmployeeID",
+          "type": "semantic_model.column",
+          "data_type": "Int64",
+          "description": "The original business identifier of the employee from the source system.",
+          "children": []
+        },
+        {
+          "id": "1cee8a42-2c41-4931-8b37-51d7cb33a4e9",
+          "is_selected": true,
+          "display_name": "LastName",
+          "type": "semantic_model.column",
+          "data_type": "String",
+          "description": "Employee's last name. Use together with FirstName to identify employees in business-facing reports.",
+          "children": []
+        },
+        {
+          "id": "8f32acff-6672-44e4-9c53-35122df2ca52",
+          "is_selected": true,
+          "display_name": "FirstName",
+          "type": "semantic_model.column",
+          "data_type": "String",
+          "description": "Employee's first name. Use together with LastName to identify employees in business-facing reports.",
+          "children": []
+        },
+        {
+          "id": "8c688672-4dc4-4e3a-862e-6b7c4d195857",
+          "is_selected": true,
+          "display_name": "Title",
+          "type": "semantic_model.column",
+          "data_type": "String",
+          "description": "The employee's job title or role.",
+          "children": []
+        },
+        {
+          "id": "042ab071-473e-402b-8ac9-54c1ef8e6f5c",
+          "is_selected": true,
+          "display_name": "TitleOfCourtesy",
+          "type": "semantic_model.column",
+          "data_type": "String",
+          "description": "Courtesy title associated with the employee, such as Mr., Ms., Mrs., or Dr., when available. It is descriptive employee information.",
+          "children": []
+        },
+        {
+          "id": "ea04f633-ec75-4e23-b06d-c81d09480c7a",
+          "is_selected": true,
+          "display_name": "BirthDate",
+          "type": "semantic_model.column",
+          "data_type": "DateTime",
+          "description": "The employee's date of birth. It is descriptive employee information and should not normally be used for business performance calculations.",
+          "children": []
+        },
+        {
+          "id": "962fdf3a-d22b-459f-8cbd-a97571ded644",
+          "is_selected": true,
+          "display_name": "HireDate",
+          "type": "semantic_model.column",
+          "data_type": "DateTime",
+          "description": "The date the employee was hired.",
+          "children": []
+        },
+        {
+          "id": "8c7f3bc4-ca0f-4a23-907a-072ce9e78c3f",
+          "is_selected": true,
+          "display_name": "Address",
+          "type": "semantic_model.column",
+          "data_type": "String",
+          "description": "The employee's address.",
+          "children": []
+        },
+        {
+          "id": "d9736d5b-6716-4c18-8972-264733d11a5c",
+          "is_selected": true,
+          "display_name": "City",
+          "type": "semantic_model.column",
+          "data_type": "String",
+          "description": "City associated with the employee's address.",
+          "children": []
+        },
+        {
+          "id": "3ef200e3-a684-4d54-857a-2e840f18ee22",
+          "is_selected": true,
+          "display_name": "Region",
+          "type": "semantic_model.column",
+          "data_type": "String",
+          "description": "Region, state, or administrative area associated with the employee's address.",
+          "children": []
+        },
+        {
+          "id": "d82f8ccf-c0a8-4e02-b672-f110153f9689",
+          "is_selected": true,
+          "display_name": "PostalCode",
+          "type": "semantic_model.column",
+          "data_type": "String",
+          "description": "Postal code associated with the employee's address.",
+          "children": []
+        },
+        {
+          "id": "3854b534-ba77-4337-8f6a-4cc796a7ce9e",
+          "is_selected": true,
+          "display_name": "Country",
+          "type": "semantic_model.column",
+          "data_type": "String",
+          "description": "Country associated with the employee's address. Use it for geographic employee analysis.",
+          "children": []
+        },
+        {
+          "id": "5519a6d0-a31c-4090-850b-e2f622265a0d",
+          "is_selected": true,
+          "display_name": "HomePhone",
+          "type": "semantic_model.column",
+          "data_type": "String",
+          "description": "Employee's home telephone number, when available. This is descriptive contact information and is not a business performance field.",
+          "children": []
+        },
+        {
+          "id": "d5fbf693-e704-489a-a2e9-454373948d5a",
+          "is_selected": true,
+          "display_name": "Extension",
+          "type": "semantic_model.column",
+          "data_type": "String",
+          "description": "Employee's internal telephone extension, when available.",
+          "children": []
+        },
+        {
+          "id": "c56fd846-fbc5-4357-8d25-a79936f1feb0",
+          "is_selected": true,
+          "display_name": "Notes",
+          "type": "semantic_model.column",
+          "data_type": "String",
+          "description": "Additional descriptive information about the employee. It should not be interpreted as a quantitative business measure.",
+          "children": []
+        },
+        {
+          "id": "549fb6a6-5247-4a0e-b76d-6e73c0b4cf52",
+          "is_selected": true,
+          "display_name": "ReportsTo",
+          "type": "semantic_model.column",
+          "data_type": "Int64",
+          "description": "Identifier representing the employee's reporting manager or supervisor, when available. It can be used to understand employee reporting structure.",
+          "children": []
+        },
+        {
+          "id": "b1d3669c-9982-471d-b427-3038b1c8a623",
+          "is_selected": true,
+          "display_name": "ReportsToMissing",
+          "type": "semantic_model.column",
+          "data_type": "Boolean",
+          "description": null,
+          "children": []
+        },
+        {
+          "id": "1dbd33fd-3cf9-46ec-907f-e24fdbd59962",
+          "is_selected": true,
+          "display_name": "StartDate",
+          "type": "semantic_model.column",
+          "data_type": "DateTime",
+          "description": "Date from which the employee dimension record became valid. It supports dimension history management.",
+          "children": []
+        },
+        {
+          "id": "2df27581-39ac-4dcd-a35a-f4b6cdde4bb0",
+          "is_selected": true,
+          "display_name": "EndDate",
+          "type": "semantic_model.column",
+          "data_type": "DateTime",
+          "description": "Date until which the employee dimension record is valid. It supports dimension history management.",
+          "children": []
+        },
+        {
+          "id": "9eff08fd-0bd0-4b5f-a81f-f6902b8caf58",
+          "is_selected": true,
+          "display_name": "IsCurrent",
+          "type": "semantic_model.column",
+          "data_type": "Boolean",
+          "description": "Indicates whether the employee dimension record represents the current version of the employee. Use the current record when the analysis requires the latest employee information.",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "9838ae5d-c0f8-4c39-8675-e8e16f52dc7b",
+      "is_selected": true,
+      "display_name": "Product",
+      "type": "semantic_model.table",
+      "description": "Product contains descriptive information about products sold by the company.\n\nEach product belongs to a category and is associated with a supplier. A product can appear in many rows of Order_Details because it may be included in many order lines.\n\nUse Product for product names, product categories, suppliers, packaging information, reference prices, and discontinued status.\n\nThe filtering path for product analysis is:\n\nProduct → Order_Details\n\nCategory and supplier analysis reaches sales through Product:\n\nCategory → Product → Order_Details\nSupplier → Product → Order_Details",
+      "children": [
+        {
+          "id": "a8534c02-3293-4ff4-8077-53b21fb3c5c9",
+          "is_selected": true,
+          "display_name": "ProductKey",
+          "type": "semantic_model.column",
+          "data_type": "Int64",
+          "description": "The surrogate key identifying the product in the dimensional model. It connects Product to Order_Details. Use it for relationships and distinct-product calculations, not as a user-facing label.",
+          "children": []
+        },
+        {
+          "id": "5c5b4b8a-a1da-4e65-8b33-2e9e21f99d14",
+          "is_selected": true,
+          "display_name": "ProductID",
+          "type": "semantic_model.column",
+          "data_type": "Int64",
+          "description": "The original business identifier of the product from the source system. It identifies the product in the operational source data.",
+          "children": []
+        },
+        {
+          "id": "e17fd162-a611-479d-b397-79713423530d",
+          "is_selected": true,
+          "display_name": "ProductName",
+          "type": "semantic_model.column",
+          "data_type": "String",
+          "description": null,
+          "children": []
+        },
+        {
+          "id": "84b5c62b-7bd9-438f-b66a-3a1d9ffa1b2d",
+          "is_selected": true,
+          "display_name": "SupplierID",
+          "type": "semantic_model.column",
+          "data_type": "Int64",
+          "description": "The original supplier identifier associated with the product.",
+          "children": []
+        },
+        {
+          "id": "5fbc62a4-38eb-45eb-86e0-618487fe3c78",
+          "is_selected": true,
+          "display_name": "CategoryID",
+          "type": "semantic_model.column",
+          "data_type": "Int64",
+          "description": "The original category identifier associated with the product. It represents the product's source-system category reference.",
+          "children": []
+        },
+        {
+          "id": "10977684-2327-4006-9f23-fec90229431b",
+          "is_selected": true,
+          "display_name": "QuantityPerUnit",
+          "type": "semantic_model.column",
+          "data_type": "String",
+          "description": "Describes the packaging or quantity contained in one product unit. It is descriptive product information and must not be interpreted as the number of units sold.",
+          "children": []
+        },
+        {
+          "id": "aad4c1b5-c0a6-4644-8577-c2982df246a2",
+          "is_selected": true,
+          "display_name": "UnitPrice",
+          "type": "semantic_model.column",
+          "data_type": "Double",
+          "description": "The reference or master-data unit price stored in the product dimension. For actual transaction revenue calculations, use Order_Details[UnitPrice], because that is the price recorded on the order line.",
+          "children": []
+        },
+        {
+          "id": "ed933756-ce2d-4b26-b77d-aea7039e9c9c",
+          "is_selected": true,
+          "display_name": "UnitsInStock",
+          "type": "semantic_model.column",
+          "data_type": "Int64",
+          "description": null,
+          "children": []
+        },
+        {
+          "id": "b4215a8c-18d4-4cc4-8cd8-92a7a791d44e",
+          "is_selected": true,
+          "display_name": "UnitsOnOrder",
+          "type": "semantic_model.column",
+          "data_type": "Int64",
+          "description": null,
+          "children": []
+        },
+        {
+          "id": "39aa5024-35af-4f78-acea-2eccc32bdc76",
+          "is_selected": true,
+          "display_name": "ReorderLevel",
+          "type": "semantic_model.column",
+          "data_type": "Int64",
+          "description": null,
+          "children": []
+        },
+        {
+          "id": "9ad246d1-94a0-482a-bf3f-738e76e35cc6",
+          "is_selected": true,
+          "display_name": "Discontinued",
+          "type": "semantic_model.column",
+          "data_type": "Boolean",
+          "description": "Indicates whether the product has been discontinued. Use it to filter or compare active and discontinued products. It does not indicate whether the product has sold.",
+          "children": []
+        },
+        {
+          "id": "cd7b185a-c62e-46a5-a3d4-afaae222be4c",
+          "is_selected": true,
+          "display_name": "StartDate",
+          "type": "semantic_model.column",
+          "data_type": "DateTime",
+          "description": "The date from which this product dimension record became valid.",
+          "children": []
+        },
+        {
+          "id": "4507ab1d-c02c-49f8-a544-617f5eeb7880",
+          "is_selected": true,
+          "display_name": "EndDate",
+          "type": "semantic_model.column",
+          "data_type": "DateTime",
+          "description": "The date until which this product dimension record is valid. It is used for dimension history management.",
+          "children": []
+        },
+        {
+          "id": "7250f99b-36db-4699-a602-7b935d05d460",
+          "is_selected": true,
+          "display_name": "IsCurrent",
+          "type": "semantic_model.column",
+          "data_type": "Boolean",
+          "description": "Indicates whether this is the current version of the product dimension record.",
+          "children": []
+        },
+        {
+          "id": "5c31bcf1-4297-4099-b280-33649b14289a",
+          "is_selected": true,
+          "display_name": "Selected Product Title",
+          "type": "semantic_model.measure",
+          "data_type": "String",
+          "description": null,
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "7a2973b7-854b-42bb-a51c-682d12cadc9b",
+      "is_selected": true,
+      "display_name": "Category",
+      "type": "semantic_model.table",
+      "description": "Category is the category dimension. It contains descriptive information about product categories and is used to group, filter, and analyze products and sales by category.\n\nA category can contain many products. The filtering path is:\nCategory → Product → Order_Details\n\nUse this table for category-level analysis such as sales by category, quantity by category, discount rate by category, and category drill-down into individual products.\n\nCategory is a descriptive dimension, not a transaction table. Numeric sales and quantity values should be calculated from Order_Details through the related Product table.",
+      "children": [
+        {
+          "id": "fe012a1c-f484-4818-a45b-29b44e104c8b",
+          "is_selected": true,
+          "display_name": "CategoryKey",
+          "type": "semantic_model.column",
+          "data_type": "Int64",
+          "description": "The surrogate key identifying a category in the dimensional model. It is used to connect Category to Product. It is a technical relationship key and is normally not displayed to business users.",
+          "children": []
+        },
+        {
+          "id": "a98cc39f-c5ea-493c-8ebb-1efc9fa174c5",
+          "is_selected": true,
+          "display_name": "CategoryID",
+          "type": "semantic_model.column",
+          "data_type": "Int64",
+          "description": "The original business identifier of the product category from the source system. It identifies the category in the operational data. Use it mainly for technical identification and relationships; use CategoryName for report labels.",
+          "children": []
+        },
+        {
+          "id": "ba40d1de-d79e-493e-8e05-7ef7d86ebccb",
+          "is_selected": true,
+          "display_name": "CategoryName",
+          "type": "semantic_model.column",
+          "data_type": "String",
+          "description": "The business name of the product category. Use it for category grouping, filtering, ranking, and chart labels.",
+          "children": []
+        },
+        {
+          "id": "576949d1-8c18-446f-b8d9-dd6d8097158f",
+          "is_selected": true,
+          "display_name": "Description",
+          "type": "semantic_model.column",
+          "data_type": "String",
+          "description": "A descriptive explanation of the category. It provides additional category context but is not a numeric business measure.",
+          "children": []
+        },
+        {
+          "id": "60d30de3-9bfa-4e53-b8d9-a24cd6f4f05d",
+          "is_selected": true,
+          "display_name": "StartDate",
+          "type": "semantic_model.column",
+          "data_type": "DateTime",
+          "description": "The date from which the category dimension record became valid. It is part of the dimension's historical or slowly changing dimension management.",
+          "children": []
+        },
+        {
+          "id": "b4c3f061-63a7-4f44-9cbf-8df5a6ce8ded",
+          "is_selected": true,
+          "display_name": "EndDate",
+          "type": "semantic_model.column",
+          "data_type": "DateTime",
+          "description": "The date until which the category dimension record is valid. A blank or future value may indicate that the record is currently valid, depending on the model's implementation.",
+          "children": []
+        },
+        {
+          "id": "525a1b01-36e2-4658-92b3-51ed7da42528",
+          "is_selected": true,
+          "display_name": "IsCurrent",
+          "type": "semantic_model.column",
+          "data_type": "Boolean",
+          "description": "Indicates whether the category dimension record is the current version. Use the current record when the analysis requires the latest category description.",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "b3d0b443-211f-40d5-b2b5-e734b777a346",
+      "is_selected": true,
+      "display_name": "Supplier",
+      "type": "semantic_model.table",
+      "description": "Supplier contains descriptive information about suppliers that provide products to the company.\n\nA supplier can provide many products. Supplier filtering reaches sales through the product dimension:\n\nSupplier → Product → Order_Details\n\nUse this table for supplier-level analysis, such as sales by supplier, quantity by supplier, products supplied, and supplier contribution to revenue.\n\nSupplier-level sales are calculated from Order_Details, not stored directly in Supplier.",
+      "children": [
+        {
+          "id": "ae69cc62-5780-4dbd-895e-d2d35852eaba",
+          "is_selected": true,
+          "display_name": "SupplierKey",
+          "type": "semantic_model.column",
+          "data_type": "Int64",
+          "description": null,
+          "children": []
+        },
+        {
+          "id": "f407f91d-c689-47ef-b76a-888332b6d3a1",
+          "is_selected": true,
+          "display_name": "SupplierID",
+          "type": "semantic_model.column",
+          "data_type": "Int64",
+          "description": "The original business identifier of the supplier from the source system.",
+          "children": []
+        },
+        {
+          "id": "3fec2d69-529b-4e93-b6b1-d22dc3e7af5e",
+          "is_selected": true,
+          "display_name": "CompanyName",
+          "type": "semantic_model.column",
+          "data_type": "String",
+          "description": "The supplier's company name. Use it as the main supplier label in visuals and analysis.",
+          "children": []
+        },
+        {
+          "id": "b3b9d11b-9708-40de-95c5-99bf4587b208",
+          "is_selected": true,
+          "display_name": "ContactName",
+          "type": "semantic_model.column",
+          "data_type": "String",
+          "description": null,
+          "children": []
+        },
+        {
+          "id": "d3ac5d31-93b4-46b7-826d-593784eb97fe",
+          "is_selected": true,
+          "display_name": "ContactTitle",
+          "type": "semantic_model.column",
+          "data_type": "String",
+          "description": null,
+          "children": []
+        },
+        {
+          "id": "a98d3236-771d-46b6-b996-84365f56e794",
+          "is_selected": true,
+          "display_name": "Address",
+          "type": "semantic_model.column",
+          "data_type": "String",
+          "description": "The supplier's business address.",
+          "children": []
+        },
+        {
+          "id": "a6212ea9-0281-4219-a71c-11f10b3bb755",
+          "is_selected": true,
+          "display_name": "City",
+          "type": "semantic_model.column",
+          "data_type": "String",
+          "description": "The supplier's city.",
+          "children": []
+        },
+        {
+          "id": "54913e5f-da13-4a6f-822a-89e3b4867a29",
+          "is_selected": true,
+          "display_name": "Region",
+          "type": "semantic_model.column",
+          "data_type": "String",
+          "description": "The supplier's region, state, or administrative area.",
+          "children": []
+        },
+        {
+          "id": "836b14fc-bb1e-46f9-b6a6-28bd29ebc5aa",
+          "is_selected": true,
+          "display_name": "PostalCode",
+          "type": "semantic_model.column",
+          "data_type": "String",
+          "description": "The supplier's postal code.",
+          "children": []
+        },
+        {
+          "id": "92e5cb39-e0a5-44c6-ba77-a54acc588fad",
+          "is_selected": true,
+          "display_name": "Country",
+          "type": "semantic_model.column",
+          "data_type": "String",
+          "description": null,
+          "children": []
+        },
+        {
+          "id": "304c3f30-17a8-45b3-a5b2-0450bc85bcbb",
+          "is_selected": true,
+          "display_name": "Phone",
+          "type": "semantic_model.column",
+          "data_type": "String",
+          "description": "The supplier's telephone contact information. It is descriptive information and is not a measure.",
+          "children": []
+        },
+        {
+          "id": "113fb6e8-d99c-431c-bd49-19f3c82b30b1",
+          "is_selected": true,
+          "display_name": "Fax",
+          "type": "semantic_model.column",
+          "data_type": "String",
+          "description": "The supplier's fax contact information, when available.",
+          "children": []
+        },
+        {
+          "id": "9f075d73-4efd-414d-8009-f86a048493f3",
+          "is_selected": true,
+          "display_name": "HomePage",
+          "type": "semantic_model.column",
+          "data_type": "String",
+          "description": "The supplier's website or homepage information, when available.",
+          "children": []
+        },
+        {
+          "id": "16f30cb0-a7e6-45a6-b3f3-32dd0771020a",
+          "is_selected": true,
+          "display_name": "StartDate",
+          "type": "semantic_model.column",
+          "data_type": "DateTime",
+          "description": "The date from which this supplier dimension record became valid.",
+          "children": []
+        },
+        {
+          "id": "ff3c5296-7127-4cb4-884f-9687427d0636",
+          "is_selected": true,
+          "display_name": "EndDate",
+          "type": "semantic_model.column",
+          "data_type": "DateTime",
+          "description": "The date until which this supplier dimension record is valid.",
+          "children": []
+        },
+        {
+          "id": "804b6dda-f514-4881-a25b-8c9afa89588f",
+          "is_selected": true,
+          "display_name": "IsCurrent",
+          "type": "semantic_model.column",
+          "data_type": "Boolean",
+          "description": "Indicates whether this is the current version of the supplier dimension record.",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "e0c5da25-faac-4a68-a40c-0ce101c17472",
+      "is_selected": true,
+      "display_name": "Shipper",
+      "type": "semantic_model.table",
+      "description": "Shipper contains descriptive information about shipping companies or carriers.\n\nA shipper can be associated with many customer orders. Shipper filters Orders through ShipperKey.\n\nUse this table for shipping workload, orders by shipper, freight analysis, average freight per order, and shipment performance.",
+      "children": [
+        {
+          "id": "0b8e9cca-a235-4f8e-b00e-de00918a8dd6",
+          "is_selected": true,
+          "display_name": "ShipperKey",
+          "type": "semantic_model.column",
+          "data_type": "Int64",
+          "description": "Surrogate key that uniquely identifies a shipper in the dimensional model. It connects Shipper to Orders and is primarily used for relationships.",
+          "children": []
+        },
+        {
+          "id": "f76dfb88-39dc-44c2-aebb-697f2f6f93ad",
+          "is_selected": true,
+          "display_name": "ShipperID",
+          "type": "semantic_model.column",
+          "data_type": "Int64",
+          "description": "Original business identifier of the shipper from the source system.",
+          "children": []
+        },
+        {
+          "id": "7b467482-7872-459e-9263-77f20e517ce3",
+          "is_selected": true,
+          "display_name": "CompanyName",
+          "type": "semantic_model.column",
+          "data_type": "String",
+          "description": "Name of the shipping company or carrier. Use it as the primary business label for shipper analysis.",
+          "children": []
+        },
+        {
+          "id": "50856e7e-44ba-4e4d-91ef-43e40bf0cc30",
+          "is_selected": true,
+          "display_name": "Phone",
+          "type": "semantic_model.column",
+          "data_type": "String",
+          "description": "Telephone contact information for the shipping company.",
+          "children": []
+        },
+        {
+          "id": "597679d0-7f19-42f6-a03b-f78f30e1995e",
+          "is_selected": true,
+          "display_name": "StartDate",
+          "type": "semantic_model.column",
+          "data_type": "DateTime",
+          "description": "Date from which the shipper dimension record became valid.",
+          "children": []
+        },
+        {
+          "id": "27ae7b4c-7383-4434-9f9b-d8a12f47a418",
+          "is_selected": true,
+          "display_name": "EndDate",
+          "type": "semantic_model.column",
+          "data_type": "DateTime",
+          "description": "Date until which the shipper dimension record is valid.",
+          "children": []
+        },
+        {
+          "id": "6e30ba6d-1ed7-4171-a6b9-85b7e94b1701",
+          "is_selected": true,
+          "display_name": "IsCurrent",
+          "type": "semantic_model.column",
+          "data_type": "Boolean",
+          "description": "Indicates whether the shipper dimension record is the current version.",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "f7f9f29e-9563-46d1-90ec-b667f53b5acf",
+      "is_selected": true,
+      "display_name": "Orders",
+      "type": "semantic_model.table",
+      "description": "Orders is the order-level fact table.\n\nThe grain is one row per complete customer order.\n\nThis table contains order identifiers, customer, employee, shipper, order date, required date, shipped date, freight, shipment destination, shipment status, and OrderCount.\n\nUse this table for:\n\n- Total Orders\n- Shipped Orders\n- Unshipped Orders\n- Shipped Order Rate\n- Total Freight\n- Average Freight per Order\n- Employee workload\n- Shipper workload\n- Required-date analysis\n- Shipped-date analysis\n- Orders YTD\n\nFreight is an order-level value. Do not calculate freight by joining or summing it across order-detail rows, because an order with multiple product lines could duplicate the freight amount.",
+      "children": [
+        {
+          "id": "363d1daa-cd43-423a-9262-96271fa212d0",
+          "is_selected": true,
+          "display_name": "OrderKey",
+          "type": "semantic_model.column",
+          "data_type": "Int64",
+          "description": "Surrogate key uniquely identifying an order fact record.",
+          "children": []
+        },
+        {
+          "id": "c7e763ae-2918-414f-888c-93b43d5f8aaf",
+          "is_selected": true,
+          "display_name": "OrderID",
+          "type": "semantic_model.column",
+          "data_type": "Int64",
+          "description": "Original business identifier of the customer order. It is the natural order identifier used to count unique orders.",
+          "children": []
+        },
+        {
+          "id": "396fd7ae-274e-40d0-bbb2-3514ae708d5e",
+          "is_selected": true,
+          "display_name": "CustomerKey",
+          "type": "semantic_model.column",
+          "data_type": "Int64",
+          "description": "Surrogate key identifying the customer who placed the order. It connects Orders to Customer.",
+          "children": []
+        },
+        {
+          "id": "88f360b2-c1f1-47d2-a79b-6d3e12099986",
+          "is_selected": true,
+          "display_name": "EmployeeKey",
+          "type": "semantic_model.column",
+          "data_type": "Int64",
+          "description": "Surrogate key identifying the employee responsible for the order. It connects Orders to Employee.",
+          "children": []
+        },
+        {
+          "id": "d0732436-6f0d-442e-8a50-54d6c95516d6",
+          "is_selected": true,
+          "display_name": "ShipperKey",
+          "type": "semantic_model.column",
+          "data_type": "Int64",
+          "description": "Surrogate key identifying the shipper associated with the order. It connects Orders to Shipper.",
+          "children": []
+        },
+        {
+          "id": "df1bc5a8-92ec-48c3-abc0-3fd26d315eb4",
+          "is_selected": true,
+          "display_name": "OrderDateKey",
+          "type": "semantic_model.column",
+          "data_type": "Int64",
+          "description": "Date key representing when the order was placed. This is the normal date role for order analysis.",
+          "children": []
+        },
+        {
+          "id": "3e0fcf5d-eb02-4cb5-96b2-655037a0f924",
+          "is_selected": true,
+          "display_name": "RequiredDateKey",
+          "type": "semantic_model.column",
+          "data_type": "Int64",
+          "description": "Date key representing the date by which the customer required the order. Use it when analyzing orders by required date.",
+          "children": []
+        },
+        {
+          "id": "7dcd9a76-84ab-4ac5-bc60-9746d0655fcc",
+          "is_selected": true,
+          "display_name": "ShippedDateKey",
+          "type": "semantic_model.column",
+          "data_type": "Int64",
+          "description": "Date key representing when the order was shipped. Use it for shipment-date analysis. A blank value can represent an order that has not been shipped. The source sentinel date 9999-12-31 should be interpreted as not shipped rather than as a real business date.",
+          "children": []
+        },
+        {
+          "id": "6d6726ba-f05e-4452-8a68-e8e352bd86fd",
+          "is_selected": true,
+          "display_name": "Freight",
+          "type": "semantic_model.column",
+          "data_type": "Double",
+          "description": "Shipping cost associated with the complete order. Freight is stored at order grain and should be summed from Orders rather than from Order_Details to avoid duplication.",
+          "children": []
+        },
+        {
+          "id": "803c3135-e86a-4b7c-b3b3-79b3d85a4c1d",
+          "is_selected": true,
+          "display_name": "OrderCount",
+          "type": "semantic_model.column",
+          "data_type": "Int64",
+          "description": "Order-level counting field. Each Orders row represents one order, so summing OrderCount represents the number of orders represented by the current filter context.",
+          "children": []
+        },
+        {
+          "id": "1e2187cf-56fc-4a23-9785-e89fb7ffc06a",
+          "is_selected": true,
+          "display_name": "ShipName",
+          "type": "semantic_model.column",
+          "data_type": "String",
+          "description": "Name associated with the order's shipping destination.",
+          "children": []
+        },
+        {
+          "id": "cc393814-7fb9-4bbf-8332-b5f4ff984ff3",
+          "is_selected": true,
+          "display_name": "ShipAddress",
+          "type": "semantic_model.column",
+          "data_type": "String",
+          "description": "Shipping destination address associated with the order.",
+          "children": []
+        },
+        {
+          "id": "b507102d-36eb-4a61-9913-490610c68dc5",
+          "is_selected": true,
+          "display_name": "ShipCity",
+          "type": "semantic_model.column",
+          "data_type": "String",
+          "description": "Shipping destination city associated with the order.",
+          "children": []
+        },
+        {
+          "id": "b0ffe293-cefc-4a30-a741-061625cc1d77",
+          "is_selected": true,
+          "display_name": "ShipRegion",
+          "type": "semantic_model.column",
+          "data_type": "String",
+          "description": "Shipping destination region, state, or administrative area.",
+          "children": []
+        },
+        {
+          "id": "7f4c75f3-a534-44b9-84d2-70bc595340e9",
+          "is_selected": true,
+          "display_name": "ShipPostalCode",
+          "type": "semantic_model.column",
+          "data_type": "String",
+          "description": "Shipping destination postal code.",
+          "children": []
+        },
+        {
+          "id": "5bc093ac-a0e7-49cc-9121-463733440a97",
+          "is_selected": true,
+          "display_name": "ShipCountry",
+          "type": "semantic_model.column",
+          "data_type": "String",
+          "description": "Shipping destination country.",
+          "children": []
+        },
+        {
+          "id": "41bc2723-e37b-4899-9391-96e6ef4e9493",
+          "is_selected": true,
+          "display_name": "ShippedStatus",
+          "type": "semantic_model.column",
+          "data_type": "String",
+          "description": "Indicates whether the order has been shipped. Use this field for shipped, unshipped, and shipment-rate calculations. Shipment metrics should be based on unique orders, not order-detail lines.",
+          "children": []
+        },
+        {
+          "id": "30062d21-9ca8-4d89-9039-a13945fa88f0",
+          "is_selected": true,
+          "display_name": "Total Orders",
+          "type": "semantic_model.measure",
+          "data_type": "Int64",
+          "description": "Number of unique customer orders, calculated using distinct OrderID values from Orders. Use this measure instead of counting Order_Details rows when the question asks for orders.",
+          "children": []
+        },
+        {
+          "id": "a00ec248-8623-4f5c-a64b-c3def8f293f6",
+          "is_selected": true,
+          "display_name": "Average Order Value",
+          "type": "semantic_model.measure",
+          "data_type": "Decimal",
+          "description": "Average Order Value is the average revenue generated per unique customer order. It is calculated as Total Sales divided by Total Orders.",
+          "children": []
+        },
+        {
+          "id": "22f736e6-3de2-442c-ba3c-d4091d4c3931",
+          "is_selected": true,
+          "display_name": "Average Items per Order",
+          "type": "semantic_model.measure",
+          "data_type": "Double",
+          "description": "Average Items per Order is the average number of product units contained in each customer order. It is calculated as Total Quantity divided by Total Orders.",
+          "children": []
+        },
+        {
+          "id": "ac3394f4-6459-4202-9d90-bb97eed90007",
+          "is_selected": true,
+          "display_name": "Orders YTD",
+          "type": "semantic_model.measure",
+          "data_type": "Int64",
+          "description": "Orders YTD is the cumulative number of unique customer orders from the beginning of the selected calendar year through the current date context.",
+          "children": []
+        },
+        {
+          "id": "f5c1178b-e45c-41d6-9f06-3af419e769ab",
+          "is_selected": true,
+          "display_name": "Orders by Required Date",
+          "type": "semantic_model.measure",
+          "data_type": "Int64",
+          "description": "Orders by Required Date counts unique orders using RequiredDateKey as the active date role for the calculation. Use it when the question concerns when orders were required rather than when they were placed.",
+          "children": []
+        },
+        {
+          "id": "c7563898-2687-44a8-a0e3-64ffbe5a80e8",
+          "is_selected": true,
+          "display_name": "Orders by Shipped Date",
+          "type": "semantic_model.measure",
+          "data_type": "Int64",
+          "description": "Orders by Shipped Date counts unique orders using ShippedDateKey as the active date role for the calculation. Use it for shipment activity over time.",
+          "children": []
+        },
+        {
+          "id": "6f9f9185-dd12-4433-876c-6b2a0522d03b",
+          "is_selected": true,
+          "display_name": "Unshipped Orders",
+          "type": "semantic_model.measure",
+          "data_type": "Int64",
+          "description": "Unshipped Orders is the number of unique customer orders that have not been shipped according to ShippedStatus.",
+          "children": []
+        },
+        {
+          "id": "d307fb9f-48ad-4ab1-895f-1272d89c0f0c",
+          "is_selected": true,
+          "display_name": "Total Freight",
+          "type": "semantic_model.measure",
+          "data_type": "Double",
+          "description": "Total Freight is the total shipping cost across orders in the current filter context. Freight is an order-level value and must be calculated from Orders.",
+          "children": []
+        },
+        {
+          "id": "f22c046e-98de-4d54-b597-cd8a7a7e9fdd",
+          "is_selected": true,
+          "display_name": "Average Freight per Order",
+          "type": "semantic_model.measure",
+          "data_type": "Double",
+          "description": "Average Freight per Order is the average shipping cost per unique customer order. It is calculated as Total Freight divided by Total Orders.",
+          "children": []
+        },
+        {
+          "id": "60947396-0320-443b-a6c5-6512343f4549",
+          "is_selected": true,
+          "display_name": "Shipped Orders",
+          "type": "semantic_model.measure",
+          "data_type": "Int64",
+          "description": "Shipped Orders is the number of unique customer orders that have been shipped according to ShippedStatus. It is an order-level metric.",
+          "children": []
+        },
+        {
+          "id": "14e2514a-be26-4a4f-b22d-bdc543720f09",
+          "is_selected": true,
+          "display_name": "Shipped Order Rate",
+          "type": "semantic_model.measure",
+          "data_type": "Double",
+          "description": "Shipped Order Rate is the percentage of unique customer orders that have been shipped. It is calculated as Shipped Orders divided by Total Orders.",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "8d471843-4ff1-4fb6-aae8-730f97ffac44",
+      "is_selected": true,
+      "display_name": "Order_Details",
+      "type": "semantic_model.table",
+      "description": "Order_Details is the detailed sales fact table.\n\nThe grain is one row per product line within one customer order. An order containing five different products normally creates five rows in this table.\n\nThis table contains the transactional selling price, quantity, discount, product key, customer key, order ID, and order date key.\n\nUse this table for:\n\n- Total Sales\n- Gross Sales\n- Total Discount Amount\n- Discount Rate\n- Total Quantity\n- Total Order Lines\n- Products Sold\n- Product performance\n- Category performance\n- Supplier performance\n- Customer revenue\n- Sales trends\n\nDo not use this table to count unique orders by counting rows. Use DISTINCTCOUNT of OrderID or the Total Orders measure from Orders.",
+      "children": [
+        {
+          "id": "f3be949c-2847-4ae1-94f0-74d0506f7aec",
+          "is_selected": true,
+          "display_name": "OrderDetailKey",
+          "type": "semantic_model.column",
+          "data_type": "Int64",
+          "description": "Surrogate key uniquely identifying an individual order-detail record. Each row represents one product line within an order.",
+          "children": []
+        },
+        {
+          "id": "9fd44ef0-f246-4207-a1aa-578e1df8eada",
+          "is_selected": true,
+          "display_name": "OrderID",
+          "type": "semantic_model.column",
+          "data_type": "Int64",
+          "description": "Business identifier of the customer order to which this order-detail line belongs. Multiple Order_Details rows can have the same OrderID because one order can contain multiple products.",
+          "children": []
+        },
+        {
+          "id": "6ce1c0d2-a70b-46bb-af06-6d14cbac7844",
+          "is_selected": true,
+          "display_name": "ProductKey",
+          "type": "semantic_model.column",
+          "data_type": "Int64",
+          "description": "Surrogate key identifying the product associated with the order-detail line. It connects the sales line to Product.",
+          "children": []
+        },
+        {
+          "id": "f6a29b7d-b506-444a-8830-951d0069aa56",
+          "is_selected": true,
+          "display_name": "CustomerKey",
+          "type": "semantic_model.column",
+          "data_type": "Int64",
+          "description": "Surrogate key identifying the customer associated with the order-detail line. It connects the sales line to Customer.",
+          "children": []
+        },
+        {
+          "id": "13b3960f-3c98-4317-bbaa-bbfed6214593",
+          "is_selected": true,
+          "display_name": "OrderDateKey",
+          "type": "semantic_model.column",
+          "data_type": "Int64",
+          "description": "Surrogate date key identifying the order date associated with the sales line. It connects the sales line to Date.",
+          "children": []
+        },
+        {
+          "id": "7cff002a-0933-40c9-984d-5e5c37ce279e",
+          "is_selected": true,
+          "display_name": "UnitPrice",
+          "type": "semantic_model.column",
+          "data_type": "Double",
+          "description": "Actual unit selling price recorded on the order line. Use this transactional price for sales calculations rather than Product[UnitPrice].",
+          "children": []
+        },
+        {
+          "id": "0eb8c415-4a6f-4417-9b06-622280299b9b",
+          "is_selected": true,
+          "display_name": "Quantity",
+          "type": "semantic_model.column",
+          "data_type": "Int64",
+          "description": "Number of units of the product sold on the order line. SUM of Quantity represents total units sold.",
+          "children": []
+        },
+        {
+          "id": "6e6f6e04-459d-4a62-8f19-8a6553f20e54",
+          "is_selected": true,
+          "display_name": "Discount",
+          "type": "semantic_model.column",
+          "data_type": "Decimal",
+          "description": "Discount rate applied to the order line. It is used when calculating the monetary discount and revenue after discount.",
+          "children": []
+        },
+        {
+          "id": "034bc5dd-c574-4d8f-8b76-c55a501063a5",
+          "is_selected": true,
+          "display_name": "LineCount",
+          "type": "semantic_model.column",
+          "data_type": "Int64",
+          "description": "Represents one sales line at the fact-table grain. Summing LineCount provides the total number of order-detail lines.",
+          "children": []
+        },
+        {
+          "id": "040b6925-361b-4ed2-8175-be4e3cc1c3e3",
+          "is_selected": true,
+          "display_name": "Total Sales",
+          "type": "semantic_model.measure",
+          "data_type": "Decimal",
+          "description": "Total Sales is revenue after applying order-line discounts. It is calculated as UnitPrice × Quantity × (1 − Discount) and summed across Order_Details. Use this as the primary revenue measure unless the user specifically asks for Gross Sales.",
+          "children": []
+        },
+        {
+          "id": "0028f529-165a-4703-a13a-2c36f832657e",
+          "is_selected": true,
+          "display_name": "Gross Sales",
+          "type": "semantic_model.measure",
+          "data_type": "Double",
+          "description": "Gross Sales is revenue before discounts. It is calculated at order-line grain as UnitPrice × Quantity and then summed. Use Gross Sales when the user asks for revenue before discounts or wants to compare gross revenue with discount impact.",
+          "children": []
+        },
+        {
+          "id": "ff32f18d-7cb7-411f-a9e6-d51ca463c416",
+          "is_selected": true,
+          "display_name": "Total Discount Amount",
+          "type": "semantic_model.measure",
+          "data_type": "Decimal",
+          "description": "Total Discount Amount is the monetary value of discounts applied to sold products. It is calculated as UnitPrice × Quantity × Discount at order-line grain and summed across the current filter context.",
+          "children": []
+        },
+        {
+          "id": "6226c82f-a371-4163-9625-b3c8703431f4",
+          "is_selected": true,
+          "display_name": "Total Quantity",
+          "type": "semantic_model.measure",
+          "data_type": "Int64",
+          "description": "Total Quantity is the total number of product units sold. It is calculated by summing Quantity from Order_Details. It represents units sold, not the number of distinct products and not the number of orders.",
+          "children": []
+        },
+        {
+          "id": "d6da0459-9eab-4147-9a40-3e962f7f2112",
+          "is_selected": true,
+          "display_name": "Total Order Lines",
+          "type": "semantic_model.measure",
+          "data_type": "Int64",
+          "description": "Total Order Lines is the number of product-level sales lines. It represents the volume of order-detail records in the current filter context. It is not the number of unique customer orders.",
+          "children": []
+        },
+        {
+          "id": "f57ad379-17ff-4c36-96f5-7579530a64f1",
+          "is_selected": true,
+          "display_name": "Sales YTD",
+          "type": "semantic_model.measure",
+          "data_type": "Decimal",
+          "description": "Sales YTD is cumulative Total Sales from the beginning of the selected calendar year through the current date context. It must use Date[Date] for time intelligence.",
+          "children": []
+        },
+        {
+          "id": "14d7c4b2-1454-4cfc-95b4-9f3bd44f7cb5",
+          "is_selected": true,
+          "display_name": "Discount Rate",
+          "type": "semantic_model.measure",
+          "data_type": "Decimal",
+          "description": "Discount Rate is the proportion of Gross Sales represented by the monetary discount. It is calculated as Total Discount Amount divided by Gross Sales. It should be interpreted as an overall weighted discount rate for the current filter context.",
+          "children": []
+        },
+        {
+          "id": "b57cab1b-cdcb-46c0-9c11-f7301c75a999",
+          "is_selected": true,
+          "display_name": "Products Sold",
+          "type": "semantic_model.measure",
+          "data_type": "Int64",
+          "description": "Products Sold is the number of distinct products that appear in the current sales context. It represents product variety sold, not the number of physical units sold.",
+          "children": []
+        },
+        {
+          "id": "81cfc43e-0a02-495b-85d8-b76e493fc644",
+          "is_selected": true,
+          "display_name": "Average Quantity per Order Line",
+          "type": "semantic_model.measure",
+          "data_type": "Double",
+          "description": "Average Quantity per Order Line is the average number of product units represented by each sales line. It is calculated as Total Quantity divided by Total Order Lines.",
+          "children": []
+        },
+        {
+          "id": "b5723ec6-9aca-452a-805c-965d419b07f4",
+          "is_selected": true,
+          "display_name": "Average Selling Price",
+          "type": "semantic_model.measure",
+          "data_type": "Double",
+          "description": "Average Selling Price is the weighted average revenue per unit before discounts. It is calculated as Gross Sales divided by Total Quantity. It is different from a simple average of order-line UnitPrice.",
+          "children": []
+        },
+        {
+          "id": "c6f2494e-e555-4e9b-871c-1d3b2565128c",
+          "is_selected": true,
+          "display_name": "Sales by Employee",
+          "type": "semantic_model.measure",
+          "data_type": "Decimal",
+          "description": "Sales by Employee calculates revenue associated with the employee's orders. Employee filters Orders through EmployeeKey, but Order_Details is a separate fact table without EmployeeKey. This measure transfers the currently filtered OrderID values from Orders to Order_Details and then evaluates Total Sales. Use this measure whenever sales are analyzed by employee.",
+          "children": []
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,1238 @@
+{
+  "properties": {
+    "activities": [
+      {
+        "type": "Copy",
+        "typeProperties": {
+          "source": {
+            "type": "ODataSource",
+            "httpRequestTimeout": "00:05:00",
+            "datasetSettings": {
+              "type": "ODataResource",
+              "typeProperties": {
+                "path": "Customers"
+              },
+              "schema": [],
+              "externalReferences": {
+                "connection": "e220684d-6182-4196-986e-b50f62d64a98"
+              },
+              "annotations": []
+            }
+          },
+          "sink": {
+            "type": "LakehouseTableSink",
+            "tableActionOption": "OverwriteSchema",
+            "applyVOrder": false,
+            "partitionOption": "None",
+            "datasetSettings": {
+              "type": "LakehouseTable",
+              "typeProperties": {
+                "schema": "",
+                "table": "Bronze_Customers"
+              },
+              "schema": [],
+              "linkedService": {
+                "name": "LakeHouse",
+                "properties": {
+                  "type": "Lakehouse",
+                  "typeProperties": {
+                    "artifactId": "c31f3ec5-5ae1-9df2-41ad-f5fba6e0edf8",
+                    "workspaceId": "00000000-0000-0000-0000-000000000000",
+                    "rootFolder": "Tables"
+                  },
+                  "annotations": []
+                }
+              },
+              "annotations": []
+            }
+          },
+          "translator": {
+            "type": "TabularTranslator",
+            "mappings": [
+              {
+                "source": {
+                  "name": "CustomerID",
+                  "type": "String"
+                },
+                "sink": {
+                  "name": "CustomerID",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "CompanyName",
+                  "type": "String"
+                },
+                "sink": {
+                  "name": "CompanyName",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "ContactName",
+                  "type": "String"
+                },
+                "sink": {
+                  "name": "ContactName",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "ContactTitle",
+                  "type": "String"
+                },
+                "sink": {
+                  "name": "ContactTitle",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "Address",
+                  "type": "String"
+                },
+                "sink": {
+                  "name": "Address",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "City",
+                  "type": "String"
+                },
+                "sink": {
+                  "name": "City",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "Region",
+                  "type": "String"
+                },
+                "sink": {
+                  "name": "Region",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "PostalCode",
+                  "type": "String"
+                },
+                "sink": {
+                  "name": "PostalCode",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "Country",
+                  "type": "String"
+                },
+                "sink": {
+                  "name": "Country",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "Phone",
+                  "type": "String"
+                },
+                "sink": {
+                  "name": "Phone",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "Fax",
+                  "type": "String"
+                },
+                "sink": {
+                  "name": "Fax",
+                  "physicalType": "string"
+                }
+              }
+            ]
+          },
+          "enableStaging": false
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Copy_Customers",
+        "dependsOn": []
+      },
+      {
+        "type": "Copy",
+        "typeProperties": {
+          "source": {
+            "type": "ODataSource",
+            "httpRequestTimeout": "00:05:00",
+            "datasetSettings": {
+              "type": "ODataResource",
+              "typeProperties": {
+                "path": "Categories"
+              },
+              "schema": [],
+              "externalReferences": {
+                "connection": "e220684d-6182-4196-986e-b50f62d64a98"
+              },
+              "annotations": []
+            }
+          },
+          "sink": {
+            "type": "LakehouseTableSink",
+            "tableActionOption": "OverwriteSchema",
+            "applyVOrder": false,
+            "partitionOption": "None",
+            "datasetSettings": {
+              "type": "LakehouseTable",
+              "typeProperties": {
+                "schema": "",
+                "table": "Bronze_Categories"
+              },
+              "schema": [],
+              "linkedService": {
+                "name": "LakeHouse",
+                "properties": {
+                  "type": "Lakehouse",
+                  "typeProperties": {
+                    "artifactId": "c31f3ec5-5ae1-9df2-41ad-f5fba6e0edf8",
+                    "workspaceId": "00000000-0000-0000-0000-000000000000",
+                    "rootFolder": "Tables"
+                  },
+                  "annotations": []
+                }
+              },
+              "annotations": []
+            }
+          },
+          "translator": {
+            "type": "TabularTranslator",
+            "mappings": [
+              {
+                "source": {
+                  "name": "CategoryID"
+                },
+                "sink": {
+                  "name": "CategoryID",
+                  "physicalType": "integer"
+                }
+              },
+              {
+                "source": {
+                  "name": "CategoryName"
+                },
+                "sink": {
+                  "name": "CategoryName",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "Description"
+                },
+                "sink": {
+                  "name": "Description",
+                  "physicalType": "string"
+                }
+              }
+            ]
+          },
+          "enableStaging": false
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Copy_Categories",
+        "dependsOn": []
+      },
+      {
+        "type": "Copy",
+        "typeProperties": {
+          "source": {
+            "type": "ODataSource",
+            "httpRequestTimeout": "00:05:00",
+            "datasetSettings": {
+              "type": "ODataResource",
+              "typeProperties": {
+                "path": "Employees"
+              },
+              "schema": [],
+              "externalReferences": {
+                "connection": "e220684d-6182-4196-986e-b50f62d64a98"
+              },
+              "annotations": []
+            }
+          },
+          "sink": {
+            "type": "LakehouseTableSink",
+            "tableActionOption": "OverwriteSchema",
+            "applyVOrder": false,
+            "partitionOption": "None",
+            "datasetSettings": {
+              "type": "LakehouseTable",
+              "typeProperties": {
+                "schema": "",
+                "table": "Bronze_Employees"
+              },
+              "schema": [],
+              "linkedService": {
+                "name": "LakeHouse",
+                "properties": {
+                  "type": "Lakehouse",
+                  "typeProperties": {
+                    "artifactId": "c31f3ec5-5ae1-9df2-41ad-f5fba6e0edf8",
+                    "workspaceId": "00000000-0000-0000-0000-000000000000",
+                    "rootFolder": "Tables"
+                  },
+                  "annotations": []
+                }
+              },
+              "annotations": []
+            }
+          },
+          "translator": {
+            "type": "TabularTranslator",
+            "mappings": [
+              {
+                "source": {
+                  "name": "EmployeeID"
+                },
+                "sink": {
+                  "name": "EmployeeID",
+                  "physicalType": "integer"
+                }
+              },
+              {
+                "source": {
+                  "name": "LastName"
+                },
+                "sink": {
+                  "name": "LastName",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "FirstName"
+                },
+                "sink": {
+                  "name": "FirstName",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "Title"
+                },
+                "sink": {
+                  "name": "Title",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "TitleOfCourtesy"
+                },
+                "sink": {
+                  "name": "TitleOfCourtesy",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "BirthDate"
+                },
+                "sink": {
+                  "name": "BirthDate",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "HireDate"
+                },
+                "sink": {
+                  "name": "HireDate",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "Address"
+                },
+                "sink": {
+                  "name": "Address",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "City"
+                },
+                "sink": {
+                  "name": "City",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "Region"
+                },
+                "sink": {
+                  "name": "Region",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "PostalCode"
+                },
+                "sink": {
+                  "name": "PostalCode",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "Country"
+                },
+                "sink": {
+                  "name": "Country",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "HomePhone"
+                },
+                "sink": {
+                  "name": "HomePhone",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "Extension"
+                },
+                "sink": {
+                  "name": "Extension",
+                  "physicalType": "string"
+                }
+              }
+            ]
+          },
+          "enableStaging": false
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Copy_Employees",
+        "dependsOn": []
+      },
+      {
+        "type": "Copy",
+        "typeProperties": {
+          "source": {
+            "type": "ODataSource",
+            "httpRequestTimeout": "00:05:00",
+            "datasetSettings": {
+              "type": "ODataResource",
+              "typeProperties": {
+                "path": "Regions"
+              },
+              "schema": [],
+              "externalReferences": {
+                "connection": "e220684d-6182-4196-986e-b50f62d64a98"
+              },
+              "annotations": []
+            }
+          },
+          "sink": {
+            "type": "LakehouseTableSink",
+            "tableActionOption": "OverwriteSchema",
+            "applyVOrder": false,
+            "partitionOption": "None",
+            "datasetSettings": {
+              "type": "LakehouseTable",
+              "typeProperties": {
+                "schema": "",
+                "table": "Bronze_Regions"
+              },
+              "schema": [],
+              "linkedService": {
+                "name": "LakeHouse",
+                "properties": {
+                  "type": "Lakehouse",
+                  "typeProperties": {
+                    "artifactId": "c31f3ec5-5ae1-9df2-41ad-f5fba6e0edf8",
+                    "workspaceId": "00000000-0000-0000-0000-000000000000",
+                    "rootFolder": "Tables"
+                  },
+                  "annotations": []
+                }
+              },
+              "annotations": []
+            }
+          },
+          "translator": {
+            "type": "TabularTranslator",
+            "mappings": [
+              {
+                "source": {
+                  "name": "RegionID",
+                  "type": "Int32"
+                },
+                "sink": {
+                  "name": "RegionID",
+                  "physicalType": "integer"
+                }
+              },
+              {
+                "source": {
+                  "name": "RegionDescription",
+                  "type": "String"
+                },
+                "sink": {
+                  "name": "RegionDescription",
+                  "physicalType": "string"
+                }
+              }
+            ]
+          },
+          "enableStaging": false
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Copy_Regions",
+        "dependsOn": []
+      },
+      {
+        "type": "Copy",
+        "typeProperties": {
+          "source": {
+            "type": "ODataSource",
+            "httpRequestTimeout": "00:05:00",
+            "datasetSettings": {
+              "type": "ODataResource",
+              "typeProperties": {
+                "path": "Shippers"
+              },
+              "schema": [],
+              "externalReferences": {
+                "connection": "e220684d-6182-4196-986e-b50f62d64a98"
+              },
+              "annotations": []
+            }
+          },
+          "sink": {
+            "type": "LakehouseTableSink",
+            "tableActionOption": "OverwriteSchema",
+            "applyVOrder": false,
+            "partitionOption": "None",
+            "datasetSettings": {
+              "type": "LakehouseTable",
+              "typeProperties": {
+                "schema": "",
+                "table": "Bronze_Shippers"
+              },
+              "schema": [],
+              "linkedService": {
+                "name": "LakeHouse",
+                "properties": {
+                  "type": "Lakehouse",
+                  "typeProperties": {
+                    "artifactId": "c31f3ec5-5ae1-9df2-41ad-f5fba6e0edf8",
+                    "workspaceId": "00000000-0000-0000-0000-000000000000",
+                    "rootFolder": "Tables"
+                  },
+                  "annotations": []
+                }
+              },
+              "annotations": []
+            }
+          },
+          "translator": {
+            "type": "TabularTranslator",
+            "mappings": [
+              {
+                "source": {
+                  "name": "ShipperID",
+                  "type": "Int32"
+                },
+                "sink": {
+                  "name": "ShipperID",
+                  "physicalType": "integer"
+                }
+              },
+              {
+                "source": {
+                  "name": "CompanyName",
+                  "type": "String"
+                },
+                "sink": {
+                  "name": "CompanyName",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "Phone",
+                  "type": "String"
+                },
+                "sink": {
+                  "name": "Phone",
+                  "physicalType": "string"
+                }
+              }
+            ]
+          },
+          "enableStaging": false
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Copy_Shippers",
+        "dependsOn": []
+      },
+      {
+        "type": "Copy",
+        "typeProperties": {
+          "source": {
+            "type": "ODataSource",
+            "httpRequestTimeout": "00:05:00",
+            "datasetSettings": {
+              "type": "ODataResource",
+              "typeProperties": {
+                "path": "Suppliers"
+              },
+              "schema": [],
+              "externalReferences": {
+                "connection": "e220684d-6182-4196-986e-b50f62d64a98"
+              },
+              "annotations": []
+            }
+          },
+          "sink": {
+            "type": "LakehouseTableSink",
+            "tableActionOption": "OverwriteSchema",
+            "applyVOrder": false,
+            "partitionOption": "None",
+            "datasetSettings": {
+              "type": "LakehouseTable",
+              "typeProperties": {
+                "schema": "",
+                "table": "Bronze_Suppliers"
+              },
+              "schema": [],
+              "linkedService": {
+                "name": "LakeHouse",
+                "properties": {
+                  "type": "Lakehouse",
+                  "typeProperties": {
+                    "artifactId": "c31f3ec5-5ae1-9df2-41ad-f5fba6e0edf8",
+                    "workspaceId": "00000000-0000-0000-0000-000000000000",
+                    "rootFolder": "Tables"
+                  },
+                  "annotations": []
+                }
+              },
+              "annotations": []
+            }
+          },
+          "translator": {
+            "type": "TabularTranslator",
+            "mappings": [
+              {
+                "source": {
+                  "name": "SupplierID",
+                  "type": "Int32"
+                },
+                "sink": {
+                  "name": "SupplierID",
+                  "physicalType": "integer"
+                }
+              },
+              {
+                "source": {
+                  "name": "CompanyName",
+                  "type": "String"
+                },
+                "sink": {
+                  "name": "CompanyName",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "ContactName",
+                  "type": "String"
+                },
+                "sink": {
+                  "name": "ContactName",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "ContactTitle",
+                  "type": "String"
+                },
+                "sink": {
+                  "name": "ContactTitle",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "Address",
+                  "type": "String"
+                },
+                "sink": {
+                  "name": "Address",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "City",
+                  "type": "String"
+                },
+                "sink": {
+                  "name": "City",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "Region",
+                  "type": "String"
+                },
+                "sink": {
+                  "name": "Region",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "PostalCode",
+                  "type": "String"
+                },
+                "sink": {
+                  "name": "PostalCode",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "Country",
+                  "type": "String"
+                },
+                "sink": {
+                  "name": "Country",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "Phone",
+                  "type": "String"
+                },
+                "sink": {
+                  "name": "Phone",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "Fax",
+                  "type": "String"
+                },
+                "sink": {
+                  "name": "Fax",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "HomePage",
+                  "type": "String"
+                },
+                "sink": {
+                  "name": "HomePage",
+                  "physicalType": "string"
+                }
+              }
+            ]
+          },
+          "enableStaging": false
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Copy_Suppliers",
+        "dependsOn": []
+      },
+      {
+        "type": "Copy",
+        "typeProperties": {
+          "source": {
+            "type": "ODataSource",
+            "httpRequestTimeout": "00:05:00",
+            "datasetSettings": {
+              "type": "ODataResource",
+              "typeProperties": {
+                "path": "Products"
+              },
+              "schema": [],
+              "externalReferences": {
+                "connection": "e220684d-6182-4196-986e-b50f62d64a98"
+              },
+              "annotations": []
+            }
+          },
+          "sink": {
+            "type": "LakehouseTableSink",
+            "tableActionOption": "OverwriteSchema",
+            "applyVOrder": false,
+            "partitionOption": "None",
+            "datasetSettings": {
+              "type": "LakehouseTable",
+              "typeProperties": {
+                "schema": "",
+                "table": "Bronze_Products"
+              },
+              "schema": [],
+              "linkedService": {
+                "name": "LakeHouse",
+                "properties": {
+                  "type": "Lakehouse",
+                  "typeProperties": {
+                    "artifactId": "c31f3ec5-5ae1-9df2-41ad-f5fba6e0edf8",
+                    "workspaceId": "00000000-0000-0000-0000-000000000000",
+                    "rootFolder": "Tables"
+                  },
+                  "annotations": []
+                }
+              },
+              "annotations": []
+            }
+          },
+          "translator": {
+            "type": "TabularTranslator",
+            "mappings": [
+              {
+                "source": {
+                  "name": "ProductID",
+                  "type": "Int32"
+                },
+                "sink": {
+                  "name": "ProductID",
+                  "physicalType": "integer"
+                }
+              },
+              {
+                "source": {
+                  "name": "ProductName",
+                  "type": "String"
+                },
+                "sink": {
+                  "name": "ProductName",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "SupplierID",
+                  "type": "Int32"
+                },
+                "sink": {
+                  "name": "SupplierID",
+                  "physicalType": "integer"
+                }
+              },
+              {
+                "source": {
+                  "name": "CategoryID",
+                  "type": "Int32"
+                },
+                "sink": {
+                  "name": "CategoryID",
+                  "physicalType": "integer"
+                }
+              },
+              {
+                "source": {
+                  "name": "QuantityPerUnit",
+                  "type": "String"
+                },
+                "sink": {
+                  "name": "QuantityPerUnit",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "UnitPrice",
+                  "type": "Decimal"
+                },
+                "sink": {
+                  "name": "UnitPrice",
+                  "physicalType": "decimal",
+                  "scale": 18,
+                  "precision": 38
+                }
+              },
+              {
+                "source": {
+                  "name": "UnitsInStock",
+                  "type": "Int16"
+                },
+                "sink": {
+                  "name": "UnitsInStock",
+                  "physicalType": "short"
+                }
+              },
+              {
+                "source": {
+                  "name": "UnitsOnOrder",
+                  "type": "Int16"
+                },
+                "sink": {
+                  "name": "UnitsOnOrder",
+                  "physicalType": "short"
+                }
+              },
+              {
+                "source": {
+                  "name": "ReorderLevel",
+                  "type": "Int16"
+                },
+                "sink": {
+                  "name": "ReorderLevel",
+                  "physicalType": "short"
+                }
+              },
+              {
+                "source": {
+                  "name": "Discontinued",
+                  "type": "Boolean"
+                },
+                "sink": {
+                  "name": "Discontinued",
+                  "physicalType": "boolean"
+                }
+              }
+            ]
+          },
+          "enableStaging": false
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Copy_Products",
+        "dependsOn": []
+      },
+      {
+        "type": "Copy",
+        "typeProperties": {
+          "source": {
+            "type": "ODataSource",
+            "httpRequestTimeout": "00:05:00",
+            "datasetSettings": {
+              "type": "ODataResource",
+              "typeProperties": {
+                "path": "Territories"
+              },
+              "schema": [],
+              "externalReferences": {
+                "connection": "e220684d-6182-4196-986e-b50f62d64a98"
+              },
+              "annotations": []
+            }
+          },
+          "sink": {
+            "type": "LakehouseTableSink",
+            "tableActionOption": "OverwriteSchema",
+            "applyVOrder": false,
+            "partitionOption": "None",
+            "datasetSettings": {
+              "type": "LakehouseTable",
+              "typeProperties": {
+                "schema": "",
+                "table": "Bronze_Territories"
+              },
+              "schema": [],
+              "linkedService": {
+                "name": "LakeHouse",
+                "properties": {
+                  "type": "Lakehouse",
+                  "typeProperties": {
+                    "artifactId": "c31f3ec5-5ae1-9df2-41ad-f5fba6e0edf8",
+                    "workspaceId": "00000000-0000-0000-0000-000000000000",
+                    "rootFolder": "Tables"
+                  },
+                  "annotations": []
+                }
+              },
+              "annotations": []
+            }
+          },
+          "translator": {
+            "type": "TabularTranslator",
+            "mappings": [
+              {
+                "source": {
+                  "name": "TerritoryID",
+                  "type": "String"
+                },
+                "sink": {
+                  "name": "TerritoryID",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "TerritoryDescription",
+                  "type": "String"
+                },
+                "sink": {
+                  "name": "TerritoryDescription",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "RegionID",
+                  "type": "Int32"
+                },
+                "sink": {
+                  "name": "RegionID",
+                  "physicalType": "integer"
+                }
+              }
+            ]
+          },
+          "enableStaging": false
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Copy_Territories",
+        "dependsOn": []
+      },
+      {
+        "type": "Copy",
+        "typeProperties": {
+          "source": {
+            "type": "ODataSource",
+            "httpRequestTimeout": "00:05:00",
+            "datasetSettings": {
+              "type": "ODataResource",
+              "typeProperties": {
+                "path": "Orders"
+              },
+              "schema": [],
+              "externalReferences": {
+                "connection": "e220684d-6182-4196-986e-b50f62d64a98"
+              },
+              "annotations": []
+            }
+          },
+          "sink": {
+            "type": "LakehouseTableSink",
+            "tableActionOption": "OverwriteSchema",
+            "applyVOrder": false,
+            "partitionOption": "None",
+            "datasetSettings": {
+              "type": "LakehouseTable",
+              "typeProperties": {
+                "schema": "",
+                "table": "Bronze_Orders"
+              },
+              "schema": [],
+              "linkedService": {
+                "name": "LakeHouse",
+                "properties": {
+                  "type": "Lakehouse",
+                  "typeProperties": {
+                    "artifactId": "c31f3ec5-5ae1-9df2-41ad-f5fba6e0edf8",
+                    "workspaceId": "00000000-0000-0000-0000-000000000000",
+                    "rootFolder": "Tables"
+                  },
+                  "annotations": []
+                }
+              },
+              "annotations": []
+            }
+          },
+          "enableStaging": false
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Copy_Orders",
+        "dependsOn": []
+      },
+      {
+        "type": "Copy",
+        "typeProperties": {
+          "source": {
+            "type": "ODataSource",
+            "httpRequestTimeout": "00:05:00",
+            "datasetSettings": {
+              "type": "ODataResource",
+              "typeProperties": {
+                "path": "Order_Details"
+              },
+              "schema": [],
+              "externalReferences": {
+                "connection": "e220684d-6182-4196-986e-b50f62d64a98"
+              },
+              "annotations": []
+            }
+          },
+          "sink": {
+            "type": "LakehouseTableSink",
+            "tableActionOption": "OverwriteSchema",
+            "applyVOrder": false,
+            "partitionOption": "None",
+            "datasetSettings": {
+              "type": "LakehouseTable",
+              "typeProperties": {
+                "schema": "",
+                "table": "Bronze_Order_Details"
+              },
+              "schema": [],
+              "linkedService": {
+                "name": "LakeHouse",
+                "properties": {
+                  "type": "Lakehouse",
+                  "typeProperties": {
+                    "artifactId": "c31f3ec5-5ae1-9df2-41ad-f5fba6e0edf8",
+                    "workspaceId": "00000000-0000-0000-0000-000000000000",
+                    "rootFolder": "Tables"
+                  },
+                  "annotations": []
+                }
+              },
+              "annotations": []
+            }
+          },
+          "translator": {
+            "type": "TabularTranslator",
+            "mappings": [
+              {
+                "source": {
+                  "name": "OrderID",
+                  "type": "Int32"
+                },
+                "sink": {
+                  "name": "OrderID",
+                  "physicalType": "integer"
+                }
+              },
+              {
+                "source": {
+                  "name": "ProductID",
+                  "type": "Int32"
+                },
+                "sink": {
+                  "name": "ProductID",
+                  "physicalType": "integer"
+                }
+              },
+              {
+                "source": {
+                  "name": "UnitPrice",
+                  "type": "Decimal"
+                },
+                "sink": {
+                  "name": "UnitPrice",
+                  "physicalType": "decimal",
+                  "scale": 18,
+                  "precision": 38
+                }
+              },
+              {
+                "source": {
+                  "name": "Quantity",
+                  "type": "Int16"
+                },
+                "sink": {
+                  "name": "Quantity",
+                  "physicalType": "short"
+                }
+              },
+              {
+                "source": {
+                  "name": "Discount",
+                  "type": "Single"
+                },
+                "sink": {
+                  "name": "Discount",
+                  "physicalType": "float"
+                }
+              }
+            ]
+          },
+          "enableStaging": false
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Copy_Order_Details",
+        "dependsOn": []
+      }
+    ]
+  }
+}

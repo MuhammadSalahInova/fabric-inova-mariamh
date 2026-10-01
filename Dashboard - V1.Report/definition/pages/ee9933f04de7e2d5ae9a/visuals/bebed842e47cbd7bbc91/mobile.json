@@ -1,0 +1,50 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainerMobileState/2.7.0/schema.json",
+  "position": {
+    "x": 0,
+    "y": 153,
+    "z": 13000,
+    "height": 446,
+    "width": 188,
+    "tabOrder": 13000
+  },
+  "objects": {
+    "pages": [],
+    "text": [
+      {
+        "properties": {
+          "fontSize": {
+            "expr": {
+              "Literal": {
+                "Value": "13D"
+              }
+            }
+          }
+        },
+        "selector": {
+          "id": "default"
+        }
+      },
+      {
+        "properties": {
+          "fontSize": {
+            "expr": {
+              "Literal": {
+                "Value": "12D"
+              }
+            }
+          }
+        },
+        "selector": {
+          "id": "selected"
+        }
+      }
+    ],
+    "rotation": [],
+    "shadow": [],
+    "accentBar": [],
+    "glow": [],
+    "layout": [],
+    "shape": []
+  }
+}

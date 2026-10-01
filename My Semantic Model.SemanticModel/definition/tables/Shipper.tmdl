@@ -1,0 +1,118 @@
+/// Shipper contains descriptive information about shipping companies or carriers.
+/// 
+/// A shipper can be associated with many customer orders. Shipper filters Orders through ShipperKey.
+/// 
+/// Use this table for shipping workload, orders by shipper, freight analysis, average freight per order, and shipment performance.
+table Shipper
+	lineageTag: e0c5da25-faac-4a68-a40c-0ce101c17472
+	sourceLineageTag: [dbo].[Dim_Shipper]
+
+	/// Surrogate key that uniquely identifies a shipper in the dimensional model. It connects Shipper to Orders and is primarily used for relationships.
+	column ShipperKey
+		dataType: int64
+		formatString: 0
+		sourceProviderType: bigint
+		lineageTag: 0b8e9cca-a235-4f8e-b00e-de00918a8dd6
+		sourceLineageTag: ShipperKey
+		summarizeBy: none
+		sourceColumn: ShipperKey
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Original business identifier of the shipper from the source system.
+	column ShipperID
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: f76dfb88-39dc-44c2-aebb-697f2f6f93ad
+		sourceLineageTag: ShipperID
+		summarizeBy: none
+		sourceColumn: ShipperID
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Name of the shipping company or carrier. Use it as the primary business label for shipper analysis.
+	column CompanyName
+		dataType: string
+		sourceProviderType: varchar(255)
+		lineageTag: 7b467482-7872-459e-9263-77f20e517ce3
+		sourceLineageTag: CompanyName
+		summarizeBy: none
+		sourceColumn: CompanyName
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Telephone contact information for the shipping company.
+	column Phone
+		dataType: string
+		sourceProviderType: varchar(100)
+		lineageTag: 50856e7e-44ba-4e4d-91ef-43e40bf0cc30
+		sourceLineageTag: Phone
+		summarizeBy: none
+		sourceColumn: Phone
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Date from which the shipper dimension record became valid.
+	column StartDate
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: date
+		lineageTag: 597679d0-7f19-42f6-a03b-f78f30e1995e
+		sourceLineageTag: StartDate
+		summarizeBy: none
+		sourceColumn: StartDate
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Date until which the shipper dimension record is valid.
+	column EndDate
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: date
+		lineageTag: 27ae7b4c-7383-4434-9f9b-d8a12f47a418
+		sourceLineageTag: EndDate
+		summarizeBy: none
+		sourceColumn: EndDate
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Indicates whether the shipper dimension record is the current version.
+	column IsCurrent
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		sourceProviderType: bit
+		lineageTag: 6e30ba6d-1ed7-4171-a6b9-85b7e94b1701
+		sourceLineageTag: IsCurrent
+		summarizeBy: none
+		sourceColumn: IsCurrent
+
+		changedProperty = Description
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Shipper = entity
+		mode: directLake
+		source
+			entityName: Dim_Shipper
+			schemaName: dbo
+			expressionSource: DatabaseQuery
+
+	changedProperty = Description
+
+	changedProperty = Name
+
+	annotation PBI_ResultType = Table
+

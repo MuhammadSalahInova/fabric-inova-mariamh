@@ -1,0 +1,39 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
+  "name": "c427e61e61c79dcc012e",
+  "position": {
+    "x": 94.223652453740954,
+    "y": 6.1786001609010466,
+    "z": 9000,
+    "height": 101.94690265486726,
+    "width": 730.6194690265487,
+    "tabOrder": 9000
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "Sales & Product Performance",
+                    "textStyle": {
+                      "fontWeight": "bold",
+                      "fontSize": "36pt",
+                      "color": "#d64550"
+                    }
+                  }
+                ],
+                "horizontalTextAlignment": "center"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}
